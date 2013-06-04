@@ -25,8 +25,38 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container" ng-view></div>
+    <div class="container-fluid">
+      <div class="navbar" ng-hide="hideNavbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#">Map wiki</a>
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Worksheets<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href="#">Create new</a>
+                    </li>
+                    <li class="divider" ng-show="nav.worksheets"></li>
+                    <li ng-repeat="worksheet in nav.worksheets">
+                      <a href="#/worksheet/{{worksheet.id}}">{{worksheet.name}}</a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#">About</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-view></div>
+    </div>
 
+    <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+    <script src="https://apis.google.com/js/client.js"></script>
     <script src="components/angular/angular.js"></script>
     <script src="components/angular-resource/angular-resource.js"></script>
     <script src="components/angular-cookies/angular-cookies.js"></script>
