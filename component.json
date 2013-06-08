@@ -2,12 +2,14 @@
   "name": "mapsheet",
   "version": "0.0.0",
   "dependencies": {
-    "angular": "~1.1.5",
+    "angular": "~1.0.7",
     "json3": "~3.2.4",
     "es5-shim": "~2.0.8",
-    "angular-resource": "~1.1.5",
-    "angular-cookies": "~1.1.5",
-    "angular-sanitize": "~1.1.5"
+    "angular-resource": "~1.0.7",
+    "angular-cookies": "~1.0.7",
+    "angular-sanitize": "~1.0.7",
+    "bootstrap": "~2.3.2",
+    "underscore": "~1.4.4"
   },
   "devDependencies": {
     "angular-mocks": "~1.0.5",
