@@ -1,1 +1,38 @@
-<div></div>
+<div class="row-fluid">
+    <div class="span12 well">
+        <p>
+            Please select a worksheet from your google account.
+        </p>
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Last updated</th>
+                    <th>Worksheets</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="doc in docs" ng-click="showWorksheets(doc.worksheetsFeed)">
+                    <td>
+                        <p>
+                            <strong>{{doc.title}}</strong>
+                        </p>
+                        <small>
+                            <a ng-show="doc.openLink" href="{{doc.openLink}}" target="_blank">Open on google docs</a>
+                        </small>
+                    </td>
+                    <td>{{doc.author}}</td>
+                    <td>{{doc.updated | date:'dd-MM-yyyy HH:mm'}}</td>
+                    <td>
+                        <ul class="unstyled">
+                            <li ng-repeat="wks in doc.worksheets">
+                                {{wks}} <a href="#"><strong>Select</strong></a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
