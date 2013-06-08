@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .controller('OpenWorksheetCtrl', function ($rootScope, $scope, $http) {
+  .controller('OpenWorksheetCtrl', function ($rootScope, $scope, $http, msGoogleFeed) {
     console.log('OpenWorksheetCtrl');
 
     var worksheetFeedCat = "http://schemas.google.com/spreadsheets/2006#worksheetsfeed";
@@ -18,12 +18,6 @@ angular.module('mapsheetApp')
       return null;
     };
 
-    var errorHandler = function(data, status) {
-      console.log('error');
-      console.log(data);
-      console.log(status);
-    };
-
     var spreadsheetsHandler = function(data) {
       $scope.docs = _.map(data.feed.entry, function(e) {
         var wsFeed = hrefSolver(e.link, worksheetFeedCat);
@@ -37,7 +31,7 @@ angular.module('mapsheetApp')
           updated: new Date(e.updated.$t)
         };
 
-        feedReq(wsFeed, function(data) {
+        msGoogleFeed.request(wsFeed).success(function(data) {
           spreadsheet['worksheets'] = _.map(data.feed.entry, function(e) {
             return e.title.$t;
           });
@@ -51,20 +45,9 @@ angular.module('mapsheetApp')
       console.log(data);
     }
 
-    var feedReq = function(feed, successHandler) {
-      return $http({
-        method: 'GET',
-        url: feed,
-        params: {alt: 'json'},
-        headers: {
-          Authorization: 'Bearer ' + $rootScope.gapiToken
-        }
-      }).success(successHandler).error(errorHandler);
+    $scope.showWorksheets = function(worksheetsFeed) {
+      msGoogleFeed.request(worksheetsFeed).success(worksheetsHandler);
     };
 
-    $scope.showWorksheets = function(worksheetsFeed) {
-      feedReq(worksheetsFeed, worksheetsHandler);
-    }
-
-    feedReq('https://spreadsheets.google.com/feeds/spreadsheets/private/full', spreadsheetsHandler);
+    msGoogleFeed.request('https://spreadsheets.google.com/feeds/spreadsheets/private/full').success(spreadsheetsHandler);
   });

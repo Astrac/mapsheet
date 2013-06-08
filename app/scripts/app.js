@@ -47,13 +47,11 @@ angular.module('mapsheetApp', ['ngResource', 'ngCookies'])
     $httpProvider.responseInterceptors.push(interceptor);
   }]).
 
-  run(['$rootScope', '$location', '$cookies', '$http', function ($rootScope, $location, $cookies, $http) {
-    $rootScope.$on("$routeChangeStart", function (event, next, current) {
-      if (!$rootScope.gapiToken && $cookies.gapiToken) {
-        var token = $cookies.gapiToken;
-
-        delete($http.defaults.headers.common['X-Requested-With']);
-        $rootScope.gapiToken = token;
-      }
-    });
+  run(['$rootScope', '$cookies', 'msGoogleFeed',
+    function ($rootScope, $cookies, msGoogleFeed) {
+      $rootScope.$on("$routeChangeStart", function (event, next, current) {
+        if (!msGoogleFeed.hasToken() && $cookies.gapiToken) {
+          msGoogleFeed.setToken($cookies.gapiToken);
+        }
+      });
   }]);

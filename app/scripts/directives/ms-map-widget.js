@@ -3,10 +3,9 @@
 angular.module('mapsheetApp')
   .directive('MsMapWidget', function () {
     return {
-      template: '<div></div>',
-      restrict: 'E',
+      template: '<div>{{text}}</div>',
+      restrict: 'A',
       link: function postLink(scope, element, attrs) {
-        element.text('this is the MsMapWidget directive');
       }
     };
   });
