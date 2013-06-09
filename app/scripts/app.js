@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mapsheetApp', ['ngResource', 'ngCookies', 'ui.bootstrap', 'LocalStorageModule'])
+angular.module('mapsheetApp', ['ngResource', 'ui.bootstrap', 'LocalStorageModule'])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
@@ -47,11 +47,12 @@ angular.module('mapsheetApp', ['ngResource', 'ngCookies', 'ui.bootstrap', 'Local
     $httpProvider.responseInterceptors.push(interceptor);
   }]).
 
-  run(['$rootScope', '$cookies', 'msGoogleFeed',
-    function ($rootScope, $cookies, msGoogleFeed) {
+  run(['$rootScope', 'localStorageService', 'msGoogleFeed',
+    function ($rootScope, localStorageService, msGoogleFeed) {
       $rootScope.$on("$routeChangeStart", function (event, next, current) {
-        if (!msGoogleFeed.hasToken() && $cookies.gapiToken) {
-          msGoogleFeed.setToken($cookies.gapiToken);
+        var storedToken = localStorageService.get('gapi_token');
+        if (!msGoogleFeed.hasToken() && storedToken) {
+          msGoogleFeed.setToken(storedToken);
         }
       });
   }]);
