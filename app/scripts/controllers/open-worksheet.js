@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .controller('OpenWorksheetCtrl', function ($rootScope, $scope, $http, msGoogleFeed) {
+  .controller('OpenWorksheetCtrl', function ($scope, $location, msGoogleFeed, msProjectManager) {
     console.log('OpenWorksheetCtrl');
 
     var worksheetFeedCat = "http://schemas.google.com/spreadsheets/2006#worksheetsfeed";
@@ -33,7 +33,12 @@ angular.module('mapsheetApp')
 
         msGoogleFeed.request(wsFeed).success(function(data) {
           spreadsheet['worksheets'] = _.map(data.feed.entry, function(e) {
-            return e.title.$t;
+            return {
+              title: e.title.$t,
+              id: e.id.$t,
+              cellsFeed: hrefSolver(e.link, "cellsfeed"),
+              listFeed: hrefSolver(e.link, "listfeed")
+            }
           });
         });
 
@@ -50,10 +55,15 @@ angular.module('mapsheetApp')
 
     var worksheetsHandler = function(data) {
       console.log(data);
-    }
+    };
 
     $scope.showWorksheets = function(worksheetsFeed) {
       msGoogleFeed.request(worksheetsFeed).success(worksheetsHandler);
+    };
+
+    $scope.openWorksheet = function(wks) {
+      msProjectManager.loadWorksheet(wks);
+      $location.path('/project');
     };
 
     msGoogleFeed.request('https://spreadsheets.google.com/feeds/spreadsheets/private/full').success(spreadsheetsHandler);

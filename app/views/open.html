@@ -7,10 +7,10 @@
                 (<a ng-show="doc.openLink" href="{{doc.openLink}}" target="_blank">Open on google docs</a>)
             </em>
 
-            <h5>Worksheets</h5>
-            <ul class="unstyled inline">
+            <h5><a href="" ng-click="wksShow = !wksShow">Worksheets</a></h5>
+            <ul class="unstyled inline" collapse="!wksShow">
                 <li ng-repeat="wks in doc.worksheets" style="margin-bottom: 5px;">
-                    <a href="#" class="btn">{{wks}}</a>
+                    <a href="" class="btn" ng-click="openWorksheet(wks)">{{wks.title}}</a>
                 </li>
             </ul>
         </div>

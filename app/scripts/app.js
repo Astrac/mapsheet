@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('mapsheetApp', ['ngResource', 'ngCookies'])
+angular.module('mapsheetApp', ['ngResource', 'ngCookies', 'ui.bootstrap', 'LocalStorageModule'])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/project/:id', {
+      .when('/project', {
         templateUrl: 'views/project.html',
         controller: 'ProjectCtrl'
       })
