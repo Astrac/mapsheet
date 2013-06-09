@@ -19,7 +19,7 @@ angular.module('mapsheetApp')
     };
 
     var spreadsheetsHandler = function(data) {
-      $scope.docs = _.map(data.feed.entry, function(e) {
+      var docs = _.map(data.feed.entry, function(e) {
         var wsFeed = hrefSolver(e.link, worksheetFeedCat);
 
         var spreadsheet = {
@@ -38,6 +38,13 @@ angular.module('mapsheetApp')
         });
 
         return spreadsheet;
+      });
+
+      var columnsCout = 3;
+
+      $scope.columns = [[], [], []];
+      _.each(docs, function(doc, index) {
+        $scope.columns[index % 3].push(doc);
       });
     };
 
