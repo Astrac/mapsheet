@@ -10,11 +10,16 @@ angular.module('mapsheetApp')
       console.log(status);
     };
 
-    var request = function (feed) {
+    var request = function (feed, parameters) {
+      if (!parameters) {
+        parameters = {};
+      }
+      parameters['alt'] = 'json';
+
       return $http({
         method: 'GET',
         url: feed,
-        params: {alt: 'json'},
+        params: parameters,
         headers: {
           Authorization: 'Bearer ' + gapiToken
         }

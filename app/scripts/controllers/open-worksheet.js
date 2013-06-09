@@ -4,7 +4,10 @@ angular.module('mapsheetApp')
   .controller('OpenWorksheetCtrl', function ($scope, $location, msGoogleFeed, msProjectManager) {
     console.log('OpenWorksheetCtrl');
 
-    var worksheetFeedCat = "http://schemas.google.com/spreadsheets/2006#worksheetsfeed";
+    var baseSchema = "http://schemas.google.com/spreadsheets/2006#";
+    var worksheetFeedSchema = baseSchema + "worksheetsfeed";
+    var cellsFeedSchema = baseSchema + "cellsfeed";
+    var listFeedSchema = baseSchema + "listfeed";
 
     var hrefSolver = function(ls, rel, type) {
       var candidates = _.filter(ls, function(l) {
@@ -20,14 +23,14 @@ angular.module('mapsheetApp')
 
     var spreadsheetsHandler = function(data) {
       var docs = _.map(data.feed.entry, function(e) {
-        var wsFeed = hrefSolver(e.link, worksheetFeedCat);
+        var wsFeed = hrefSolver(e.link, worksheetFeedSchema);
 
         var spreadsheet = {
           id: e.id.$t,
           title: e.title.$t,
           author: _.reduce(e.author, function(memo, a) { return memo + a.name.$t; }, ""),
           worksheetsFeed: wsFeed,
-          openLink: hrefSolver(e.link, "alternate"),
+          openLink: hrefSolver(e.link, 'alternate', 'text/html'),
           updated: new Date(e.updated.$t)
         };
 
@@ -36,8 +39,9 @@ angular.module('mapsheetApp')
             return {
               title: e.title.$t,
               id: e.id.$t,
-              cellsFeed: hrefSolver(e.link, "cellsfeed"),
-              listFeed: hrefSolver(e.link, "listfeed")
+              openLink: spreadsheet.openLink,
+              cellsFeed: hrefSolver(e.link, cellsFeedSchema),
+              listFeed: hrefSolver(e.link, listFeedSchema)
             }
           });
         });
@@ -51,14 +55,6 @@ angular.module('mapsheetApp')
       _.each(docs, function(doc, index) {
         $scope.columns[index % 3].push(doc);
       });
-    };
-
-    var worksheetsHandler = function(data) {
-      console.log(data);
-    };
-
-    $scope.showWorksheets = function(worksheetsFeed) {
-      msGoogleFeed.request(worksheetsFeed).success(worksheetsHandler);
     };
 
     $scope.openWorksheet = function(wks) {

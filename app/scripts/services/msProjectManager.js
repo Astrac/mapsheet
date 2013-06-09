@@ -27,6 +27,6 @@ angular.module('mapsheetApp')
     return {
       'loadWorksheet': loadWorksheet,
       'worksheets': worksheets,
-      'worksheet': function (urlId) { return worksheets['urlId']; }
+      'worksheet': function (urlId) { return worksheets[urlId]; }
     };
   }]);

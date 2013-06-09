@@ -1,0 +1,16 @@
+<table class="table table-bordered table-condensed table-striped table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th>A</th>
+            <th>B</th>
+            <th>C</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in cellManager.cells">
+            <th>{{$index}}</th>
+            <td ng-repeat="cell in row">{{cell.content}}</td>
+        </tr>
+    </tbody>
+</table>
