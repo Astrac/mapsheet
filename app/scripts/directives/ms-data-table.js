@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .directive('MsDataTable', function () {
+  .directive('msDataTable', function () {
     return {
-      template: '<div></div>',
+      template: '<div>data</div>',
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
       }

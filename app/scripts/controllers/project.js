@@ -1,9 +1,6 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .controller('ProjectCtrl', function ($scope, msProjectManager) {
+  .controller('ProjectCtrl', function ($scope, msProjectManager, msGoogleFeed) {
     console.log('ProjectCtrl');
-
-    $scope.worksheets = msProjectManager.worksheets;
-    console.log(msProjectManager.worksheets);
   });

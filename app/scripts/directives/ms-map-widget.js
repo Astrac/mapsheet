@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .directive('MsMapWidget', function () {
+  .directive('msMapWidget', function () {
     return {
-      template: '<div>{{text}}</div>',
+      template: '<div>map</div>',
       restrict: 'A',
       link: function postLink(scope, element, attrs) {
       }

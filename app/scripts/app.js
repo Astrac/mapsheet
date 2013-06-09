@@ -7,7 +7,7 @@ angular.module('mapsheetApp', ['ngResource', 'ui.bootstrap', 'LocalStorageModule
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/project', {
+      .when('/project/:id', {
         templateUrl: 'views/project.html',
         controller: 'ProjectCtrl'
       })

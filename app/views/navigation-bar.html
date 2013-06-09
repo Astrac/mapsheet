@@ -1,0 +1,24 @@
+<div class="navbar" ng-hide="hidenavbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="#">MapSheet</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Worksheets<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="#/open-worksheet">Open from google drive</a>
+              </li>
+              <li class="divider" ng-show="hasWorksheets"></li>
+              <li ng-repeat="(id, worksheet) in worksheets">
+                <a href="#/project/{{id}}">{{worksheet.title}}</a>
+              </li>
+            </ul>
+          </li>
+          <li><a href="">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

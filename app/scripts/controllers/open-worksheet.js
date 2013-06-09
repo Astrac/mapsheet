@@ -62,8 +62,8 @@ angular.module('mapsheetApp')
     };
 
     $scope.openWorksheet = function(wks) {
-      msProjectManager.loadWorksheet(wks);
-      $location.path('/project');
+      var urlId = msProjectManager.loadWorksheet(wks);
+      $location.path('/project/' + urlId);
     };
 
     msGoogleFeed.request('https://spreadsheets.google.com/feeds/spreadsheets/private/full').success(spreadsheetsHandler);
