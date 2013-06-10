@@ -26,13 +26,12 @@ application is served at the URL http://127.0.0.1:9999
 * Login with google account
 * Retrieval of worksheets for the logged in user (use the top bar to view the
 open worksheet interface)
+* Retrieval and visualization of data for open worksheets
+* Minimum local storage support to cache the "project" configuration
+* Map with coordinate tracker
 
 Next things coming:
 
 * Select cell intervals in the spreadsheet
 * Visualise data from selected cells on a map
 * Update spreadsheet by map interaction
-
-We need badly:
-
-* A decent design!
