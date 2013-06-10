@@ -1,16 +1,16 @@
 <div class="row-fluid">
     <div class="span4" ng-repeat="col in columns">
-        <div class="row-fluid well" ng-repeat="doc in col">
-            <h4>{{doc.title}} <small>by {{doc.author}}</small></h4>
+        <div class="row-fluid well" ng-repeat="wrapper in col">
+            <h4>{{wrapper.spreadsheet.title}} <small>by {{wrapper.spreadsheet.author}}</small></h4>
             <em>
-                Last updated on {{doc.updated | date:'dd-MM-yyyy HH:mm'}}
-                (<a ng-show="doc.openLink" href="{{doc.openLink}}" target="_blank">Open on google docs</a>)
+                Last updated on {{wrapper.spreadsheet.updated | date:'dd-MM-yyyy HH:mm'}}
+                (<a ng-show="wrapper.spreadsheet.openLink" href="{{wrapper.spreadsheet.openLink}}" target="_blank">Open on google docs</a>)
             </em>
 
-            <h5><a href="" ng-click="wksShow = !wksShow">Worksheets</a></h5>
-            <ul class="unstyled inline" collapse="!wksShow">
-                <li ng-repeat="wks in doc.worksheets" style="margin-bottom: 5px;">
-                    <a href="" class="btn" ng-click="openWorksheet(wks)">{{wks.title}}</a>
+            <h5><a href="" ng-click="showWorksheets(wrapper); hideWks = !hideWks">Worksheets</a></h5>
+            <ul class="unstyled inline" collapse="!hideWks">
+                <li ng-repeat="doc in wrapper.documents" style="margin-bottom: 5px;">
+                    <a href="" class="btn" ng-click="openDocument(doc)">{{doc.worksheet.title}}</a>
                 </li>
             </ul>
         </div>

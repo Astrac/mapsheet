@@ -8,8 +8,8 @@ angular.module('mapsheetApp')
       restrict: 'A',
       replace: true,
       link: function postLink(scope, element, attrs) {
-        scope.worksheets = msProjectManager.worksheets;
-        scope.hasWorksheets = !_.isEmpty(scope.worksheets);
+        scope.documents = msProjectManager.documents;
+        scope.hasWorksheets = !_.isEmpty(scope.documents);
       }
     };
   }]);

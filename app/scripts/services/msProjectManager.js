@@ -2,31 +2,29 @@
 
 angular.module('mapsheetApp')
   .factory('msProjectManager', ['localStorageService', function (localStorageService) {
-    var worksheets = JSON.parse(localStorageService.get('worksheets'));
+    var documents = JSON.parse(localStorageService.get('documents'));
 
     var updateWorksheets = function() {
-      localStorageService.add('worksheets', JSON.stringify(worksheets));
+      localStorageService.add('documents', JSON.stringify(documents));
     };
 
-    if (worksheets === null) {
-      worksheets = {};
+    if (documents === null) {
+      documents = {};
       updateWorksheets();
     }
 
-    var loadWorksheet = function(wks) {
-      var urlId = new Hashes.SHA512().hex(wks.id);
-
-      if (!worksheets[urlId]) {
-        worksheets[urlId] = wks;
+    var load = function(doc) {
+      if (!documents[doc.id]) {
+        documents[doc.id] = doc;
         updateWorksheets();
       }
 
-      return urlId;
+      return doc.id;
     };
 
     return {
-      'loadWorksheet': loadWorksheet,
-      'worksheets': worksheets,
-      'worksheet': function (urlId) { return worksheets[urlId]; }
+      'load': load,
+      'documents': documents,
+      'document': function (urlId) { return documents[urlId]; }
     };
   }]);

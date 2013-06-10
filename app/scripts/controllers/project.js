@@ -4,14 +4,18 @@ angular.module('mapsheetApp')
   .controller('ProjectCtrl', function ($scope, $routeParams, msProjectManager, msCellManager, msGoogleFeed) {
     console.log('ProjectCtrl');
 
-    var wksId = $routeParams.id;
+    var docId = $routeParams.id;
 
-    if (wksId != '_empty') {
-      var wks = msProjectManager.worksheet(wksId);
-      $scope.wks = wks;
-      msCellManager.open(wks);
+    if (docId != '_empty') {
+      var doc = msProjectManager.document(docId);
+      $scope.doc = doc;
+      msCellManager.open(doc);
     } else {
-      $scope.wks = [];
+      $scope.doc = [];
     }
+
+    $scope.reloadDocument = function() {
+      msCellManager.reload();
+    };
 
   });

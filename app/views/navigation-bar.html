@@ -11,8 +11,8 @@
                 <a href="#/open-worksheet">Open from google drive</a>
               </li>
               <li class="divider" ng-show="hasWorksheets"></li>
-              <li ng-repeat="(id, worksheet) in worksheets">
-                <a href="#/project/{{id}}">{{worksheet.title}}</a>
+              <li ng-repeat="(id, document) in documents">
+                <a href="#/project/{{document.id}}">{{document.worksheet.title}}</a>
               </li>
             </ul>
           </li>
