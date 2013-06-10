@@ -9,7 +9,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="row in cellManager.cells">
+        <tr ng-repeat="row in msDocument.table.rows">
             <th>{{$index}}</th>
             <td ng-repeat="cell in row">{{cell.content}}</td>
         </tr>

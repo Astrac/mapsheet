@@ -1,21 +1,29 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .controller('ProjectCtrl', function ($scope, $routeParams, msProjectManager, msCellManager, msGoogleFeed) {
+  .controller('ProjectCtrl', function ($scope, $routeParams, msProjectManager, msGoogleFeed) {
     console.log('ProjectCtrl');
 
     var docId = $routeParams.id;
+    var tableParser = new Mapsheet.TableParser();
 
-    if (docId != '_empty') {
+    var reloadDocument = function() {
       var doc = msProjectManager.document(docId);
       $scope.doc = doc;
-      msCellManager.open(doc);
-    } else {
-      $scope.doc = [];
+
+      msGoogleFeed
+        .request(doc.worksheet.cellsFeed)
+        .success(function(data) {
+          doc.table = tableParser.parse(data);
+        });
     }
 
-    $scope.reloadDocument = function() {
-      msCellManager.reload();
-    };
+    if (docId != '_empty') {
+      reloadDocument();
+    } else {
+      $scope.doc = {};
+    }
+
+    $scope.reloadDocument = reloadDocument;
 
   });

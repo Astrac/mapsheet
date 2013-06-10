@@ -4,6 +4,7 @@ angular.module('mapsheetApp')
   .controller('OpenWorksheetCtrl', function ($scope, $location, msGoogleFeed, msProjectManager) {
     console.log('OpenWorksheetCtrl');
 
+    // TODO: Register these as services
     var spreadsheetParser = new Mapsheet.SpreadsheetParser();
     var worksheetParser = new Mapsheet.WorksheetParser();
 

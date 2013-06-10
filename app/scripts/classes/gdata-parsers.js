@@ -47,4 +47,25 @@
       );
     }
   });
+
+  Mapsheet.TableParser = DropletJS.Class.extend(Mapsheet.GDataParser, {
+    parse: function(data) {
+      var cells = _.reduce(data.feed.entry, function(memo, cell) {
+        var row = cell.gs$cell.row - 1;
+        var col = cell.gs$cell.col - 1;
+
+        if (!memo[row]) {
+          memo[row] = [];
+        }
+
+        memo[row][col] = new Mapsheet.Cell(
+          cell.id.$t, cell.title.$t, row, col, cell.content.$t
+        );
+
+        return _.filter(memo, function(r) { return r; });
+      }, []);
+
+      return new Mapsheet.Table(cells);
+    }
+  });
 })();

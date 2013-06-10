@@ -46,15 +46,39 @@ Mapsheet.Document = DropletJS.Class.create({
   id: null,
   spreadsheet: null,
   worksheet: null,
-  cells: [],
+  table: null,
 
-  construct: function(spreadsheet, worksheet, cells) {
+  construct: function(spreadsheet, worksheet, table) {
     this.spreadsheet = spreadsheet;
     this.worksheet = worksheet;
     this.id = this.worksheet.getHashId();
-    if (cells) {
-      this.cells = cells;
+    if (table) {
+      this.table = table;
     }
+  }
+});
+
+Mapsheet.Table = DropletJS.Class.create({
+  rows: [],
+
+  construct: function(rows) {
+    this.rows = rows;
+  }
+});
+
+Mapsheet.Cell = DropletJS.Class.create({
+  id: '',
+  name: '',
+  row: -1,
+  col: -1,
+  content: '',
+
+  construct: function(id, name, row, col, content) {
+    this.id = id;
+    this.name = name;
+    this.row = row;
+    this.col = col;
+    this.content = content;
   }
 });
 

@@ -10,6 +10,7 @@
     "angular-cookies": "~1.0.7",
     "angular-sanitize": "~1.0.7",
     "angular-bootstrap": "~0.3.0",
+    "angular-localstorage": "master",
     "underscore": "~1.4.4",
     "DropletJS.Class": "~0.2.2",
     "jshashes": "master"

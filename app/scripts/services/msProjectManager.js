@@ -13,17 +13,15 @@ angular.module('mapsheetApp')
       updateWorksheets();
     }
 
-    var load = function(doc) {
-      if (!documents[doc.id]) {
-        documents[doc.id] = doc;
-        updateWorksheets();
-      }
-
-      return doc.id;
-    };
-
     return {
-      'load': load,
+      load: function(doc) {
+        if (!documents[doc.id]) {
+          documents[doc.id] = doc;
+          updateWorksheets();
+        }
+
+        return doc.id;
+      },
       'documents': documents,
       'document': function (urlId) { return documents[urlId]; }
     };
