@@ -168,3 +168,78 @@ Mapsheet.Project = DropletJS.Class.create({
     }
   }
 });
+
+Mapsheet.GeoBindings = DropletJS.Class.create({
+  latCol: -1,
+  lngCol: -1,
+  radCol: -1,
+
+  construct: function(latCol, lngCol, radCol) {
+    this.latCol = latCol || -1;
+    this.lngCol = lngCol || -1;
+    this.radCol = radCol || -1;
+  }
+});
+
+Mapsheet.TableAdapter = DropletJS.Class.create({
+  table: null,
+  hideCols: [],
+  pageSize: 15,
+  currentPage: 0,
+  geoBindings: null,
+
+  construct: function(table) {
+    this.table = table;
+    this.geoBindings = new Mapsheet.GeoBindings();
+  },
+
+  view: function() {
+    if (this.table) {
+      var firstRow = this.currentPage * this.pageSize;
+      var lastRow = firstRow + this.pageSize;
+
+      var rows = this.table.rows.slice(firstRow, lastRow);
+
+      if (this.showCols.length > 0) {
+        return _.map(rows, function(r) {
+          return _.filter(r.cells, function (c) { return !_.contains(this.hideCols, c); });
+        });
+      }
+    } else {
+      var rows = [];
+    }
+
+    return new Mapsheet.Table(rows);
+  }
+});
+
+Mapsheet.GeoRepresentation = DropletJS.Class.create({
+  row: DropletJS.Class.NUMBER,
+  type: DropletJS.Class.STRING
+});
+
+Mapsheet.Marker = DropletJS.Class.extend(Mapsheet.GeoRepresentation, {
+  lat: -1,
+  lon: -1,
+
+  construct: function(row, lat, lon) {
+    this.lat = lat;
+    this.lon = lon;
+    this.row = row;
+    this.type = "marker";
+  }
+});
+
+Mapsheet.Circle = DropletJS.Class.extend(Mapsheet.GeoRepresentation, {
+  lat: -1,
+  lon: -1,
+  rad: -1,
+
+  construct: function(row, lat, lon, rad) {
+    this.lat = lat;
+    this.lon = lon;
+    this.rad = rad;
+    this.row = row;
+    this.type = "circle";
+  }
+})
