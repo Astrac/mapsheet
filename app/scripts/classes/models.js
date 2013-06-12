@@ -88,7 +88,7 @@ Mapsheet.Table = DropletJS.Class.create({
       return col;
     }
 
-    return _.find(this.rows[idx].cells, function(c) { return c; }).row;
+    return _.find(this.rows[idx].cells, function(c) { return c; }).row + 1;
   }
 });
 
@@ -182,34 +182,31 @@ Mapsheet.GeoBindings = DropletJS.Class.create({
 });
 
 Mapsheet.TableAdapter = DropletJS.Class.create({
-  table: null,
   hideCols: [],
   pageSize: 15,
   currentPage: 0,
   geoBindings: null,
 
-  construct: function(table) {
-    this.table = table;
+  construct: function() {
     this.geoBindings = new Mapsheet.GeoBindings();
   },
 
-  view: function() {
-    if (this.table) {
+  view: function(table) {
+    if (table) {
       var firstRow = this.currentPage * this.pageSize;
       var lastRow = firstRow + this.pageSize;
 
-      var rows = this.table.rows.slice(firstRow, lastRow);
+      var rows = table.rows.slice(firstRow, lastRow);
+      var hideCols = this.hideCols;
 
-      if (this.showCols.length > 0) {
-        return _.map(rows, function(r) {
-          return _.filter(r.cells, function (c) { return !_.contains(this.hideCols, c); });
-        });
-      }
+      rows = _.map(rows, function(r) {
+        return _.filter(r.cells, function (c) { return !_.contains(hideCols, c.col); });
+      });
     } else {
       var rows = [];
     }
 
-    return new Mapsheet.Table(rows);
+    return rows;
   }
 });
 

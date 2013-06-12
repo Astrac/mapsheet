@@ -9,6 +9,12 @@ angular.module('mapsheetApp')
         msDocument: '='
       },
       link: function postLink(scope, element, attrs) {
+        scope.table = null;
+        scope.tableAdapter = new Mapsheet.TableAdapter();
+
+        scope.$watch('msDocument.table', function() {
+          scope.table = scope.tableAdapter.view(scope.msDocument.table);
+        });
       }
     };
   });
