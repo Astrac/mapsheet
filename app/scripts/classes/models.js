@@ -42,27 +42,77 @@ Mapsheet.Worksheet = DropletJS.Class.create({
   }
 });
 
-Mapsheet.Document = DropletJS.Class.create({
-  id: null,
-  spreadsheet: null,
-  worksheet: null,
-  table: null,
-
-  construct: function(spreadsheet, worksheet, table) {
-    this.spreadsheet = spreadsheet;
-    this.worksheet = worksheet;
-    this.id = this.worksheet.getHashId();
-    if (table) {
-      this.table = table;
-    }
-  }
-});
-
 Mapsheet.Table = DropletJS.Class.create({
   rows: [],
+  headersRow: -1,
+  headersCol: -1,
 
   construct: function(rows) {
     this.rows = rows;
+  },
+
+  row: function(id) {
+    var row = _.filter(function (r) { return r.id == id; });
+
+    if (row.length == 0) {
+      return null;
+    }
+
+    return row[0];
+  },
+
+  colHeaders: function() {
+    var row = this.rows[this.headersRow];
+    if (row) {
+      return row;
+    }
+
+    var colIndexes = _.sortBy(_.keys(_.reduce(this.rows, function(memo, row) {
+      _.each(row.cells, function(c) {
+        memo[c.col] = true;
+      });
+
+      return memo;
+    }, {})), function(idx) { return idx; });
+
+    if (colIndexes && colIndexes[0] != 0) {
+      colIndexes = _.union(_.range(0, colIndexes[0]), colIndexes);
+    }
+
+    return _.map(colIndexes, function(c) { return String.fromCharCode(65 + parseInt(c)); });
+  },
+
+  rowHeader: function(idx) {
+    var col = this.rows[this.headersCol];
+    if (col) {
+      return col;
+    }
+
+    return _.find(this.rows[idx].cells, function(c) { return c; }).row;
+  }
+});
+
+Mapsheet.Row = DropletJS.Class.create({
+  id: null,
+  cells: [],
+
+  construct: function(id, cells) {
+    this.id = id;
+    this.cells = cells;
+  },
+
+  cell: function(id) {
+    var cell = _.filter(function (c) { return id == c.id; });
+
+    if (cell.length == 0) {
+      return null;
+    }
+
+    return cell[0];
+  },
+
+  setCell: function(cell) {
+    this.cells[cell.col] = cell;
   }
 });
 
@@ -79,6 +129,22 @@ Mapsheet.Cell = DropletJS.Class.create({
     this.row = row;
     this.col = col;
     this.content = content;
+  }
+});
+
+Mapsheet.Document = DropletJS.Class.create({
+  id: null,
+  spreadsheet: null,
+  worksheet: null,
+  table: null,
+
+  construct: function(spreadsheet, worksheet, table) {
+    this.spreadsheet = spreadsheet;
+    this.worksheet = worksheet;
+    this.id = this.worksheet.getHashId();
+    if (table) {
+      this.table = table;
+    }
   }
 });
 

@@ -50,20 +50,20 @@
 
   Mapsheet.TableParser = DropletJS.Class.extend(Mapsheet.GDataParser, {
     parse: function(data) {
-      var cells = _.reduce(data.feed.entry, function(memo, cell) {
+      var cells = _.filter(_.reduce(data.feed.entry, function(memo, cell) {
         var row = cell.gs$cell.row - 1;
         var col = cell.gs$cell.col - 1;
 
         if (!memo[row]) {
-          memo[row] = [];
+          memo[row] = new Mapsheet.Row(row, []);
         }
 
-        memo[row][col] = new Mapsheet.Cell(
+        memo[row].setCell(new Mapsheet.Cell(
           cell.id.$t, cell.title.$t, row, col, cell.content.$t
-        );
+        ));
 
-        return _.filter(memo, function(r) { return r; });
-      }, []);
+        return memo;
+      }, []), function(r) { return r.cells.length > 0; });
 
       return new Mapsheet.Table(cells);
     }

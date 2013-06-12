@@ -2,16 +2,15 @@
     <thead>
         <tr>
             <th></th>
-            <th>A</th>
-            <th>B</th>
-            <th>C</th>
-            <th>...</th>
+            <th ng-repeat="head in msDocument.table.colHeaders()">
+                {{head}}
+            </th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="row in msDocument.table.rows">
-            <th>{{$index}}</th>
-            <td ng-repeat="cell in row">{{cell.content}}</td>
+            <th>{{msDocument.table.rowHeader($index)}}</th>
+            <td ng-repeat="cell in row.cells">{{cell.content}}</td>
         </tr>
     </tbody>
 </table>
