@@ -8,7 +8,7 @@ angular.module('mapsheetApp')
         'msDocument': '='
       },
       restrict: 'A',
-      link: function(scope, element, controller) {
+      link: function(scope) {
         scope.lat = 0;
         scope.lon = 0;
 
@@ -23,7 +23,7 @@ angular.module('mapsheetApp')
           scope.$apply(function() {
               scope.lat = evt.latlng.lat;
               scope.lon = evt.latlng.lng;
-          });
+            });
         });
       }
     };

@@ -20,6 +20,12 @@
   "trailing": true,
   "smarttabs": true,
   "globals": {
-    "angular": false
+    "angular": false,
+    "Mapsheet": true,
+    "DropletJS": true,
+    "Hashes": true,
+    "L": true,
+    "_": true,
+    "gapi": true
   }
 }

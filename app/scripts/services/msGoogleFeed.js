@@ -14,7 +14,7 @@ angular.module('mapsheetApp')
       if (!parameters) {
         parameters = {};
       }
-      parameters['alt'] = 'json';
+      parameters.alt = 'json';
 
       return $http({
         method: 'GET',
@@ -31,7 +31,7 @@ angular.module('mapsheetApp')
 
     return {
       'request': request,
-      'hasToken': function() { return gapiToken != null; },
+      'hasToken': function() { return gapiToken !== null; },
       'setToken': function(token) {
         gapiToken = token;
       }

@@ -8,7 +8,7 @@ angular.module('mapsheetApp')
       scope: {
         msDocument: '='
       },
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope) {
         scope.tableAdapter = new Mapsheet.TableAdapter(new Mapsheet.Table([]));
 
         scope.$watch('msDocument.table', function() {

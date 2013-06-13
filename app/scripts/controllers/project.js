@@ -16,9 +16,9 @@ angular.module('mapsheetApp')
         .success(function(data) {
           doc.table = tableParser.parse(data);
         });
-    }
+    };
 
-    if (docId != '_empty') {
+    if (docId !== '_empty') {
       reloadDocument();
     } else {
       $scope.doc = {};

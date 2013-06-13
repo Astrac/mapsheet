@@ -15,12 +15,14 @@ angular.module('mapsheetApp')
         gapi.auth.authorize(config, function() {
           console.log('login complete');
           $scope.$apply(function() {
-            var token = gapi.auth.getToken();
-            msGoogleFeed.setToken(token.access_token);
-            localStorageService.add('gapi_token', token.access_token);
+            /* jshint -W106 */
+            var token = gapi.auth.getToken().access_token;
+
+            msGoogleFeed.setToken(token);
+            localStorageService.add('gapi_token', token);
             $location.path('/project/_empty');
           });
         });
-      }
-  }])
+      };
+    }])
 ;
