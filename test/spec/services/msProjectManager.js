@@ -11,8 +11,7 @@ describe('Service: msProjectManager', function () {
     msProjectManager = _msProjectManager_;
   }));
 
-  it('should do something', function () {
-    expect(!!msProjectManager).toBe(true);
+  xit('Should have some tests...', function () {
   });
 
 });

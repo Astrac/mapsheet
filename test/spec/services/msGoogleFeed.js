@@ -11,8 +11,7 @@ describe('Service: msGoogleFeed', function () {
     msGoogleFeed = _msGoogleFeed_;
   }));
 
-  it('should do something', function () {
-    expect(!!msGoogleFeed).toBe(true);
+  xit('Should have some tests...', function () {
   });
 
 });
