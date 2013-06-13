@@ -182,21 +182,47 @@ Mapsheet.GeoBindings = DropletJS.Class.create({
 });
 
 Mapsheet.TableAdapter = DropletJS.Class.create({
+  table: null,
   hideCols: [],
   pageSize: 15,
-  currentPage: 0,
+  currentPage: 1, // 1-based pagination
   geoBindings: null,
 
-  construct: function() {
+  construct: function(table) {
+    this.table = table;
     this.geoBindings = new Mapsheet.GeoBindings();
   },
 
-  view: function(table) {
-    if (table) {
-      var firstRow = this.currentPage * this.pageSize;
+  totalPages: function() {
+    return this.table ? Math.ceil(this.table.rows.length / this.pageSize) : 0;
+  },
+
+  hasPrevPage: function() {
+    return this.currentPage > 1;
+  },
+
+  hasNextPage: function() {
+    return this.currentPage < this.totalPages();
+  },
+
+  nextPage: function() {
+    if (this.hasNextPage()) {
+      this.currentPage++;
+    }
+  },
+
+  prevPage: function() {
+    if (this.hasPrevPage()) {
+      this.currentPage--;
+    }
+  },
+
+  view: function() {
+    if (this.table) {
+      var firstRow = (this.currentPage - 1) * this.pageSize;
       var lastRow = firstRow + this.pageSize;
 
-      var rows = table.rows.slice(firstRow, lastRow);
+      var rows = this.table.rows.slice(firstRow, lastRow);
       var hideCols = this.hideCols;
 
       rows = _.map(rows, function(r) {
