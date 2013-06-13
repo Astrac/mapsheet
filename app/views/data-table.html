@@ -3,8 +3,14 @@
     <thead>
         <tr>
             <th></th>
-            <th ng-repeat="head in msDocument.table.colHeaders()">
-                {{head}}
+            <th class="dropdown" ng-repeat="head in msDocument.table.colHeaders()">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown">{{head}}<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="">Hide column</a></li>
+                    <li><a href="">Use as latitude</a></li>
+                    <li><a href="">Use as longitude</a></li>
+                    <li><a href="">Use as radius</a></li>
+                </ul>
             </th>
         </tr>
     </thead>
