@@ -111,6 +111,16 @@ Mapsheet.Row = DropletJS.Class.create({
     return cell[0];
   },
 
+  col: function(colId) {
+    var cell = _.filter(function (c) { return colId == c.col; });
+
+    if (cell.length == 0) {
+      return null;
+    }
+
+    return cell[0];
+  },
+
   setCell: function(cell) {
     this.cells[cell.col] = cell;
   }
@@ -169,24 +179,11 @@ Mapsheet.Project = DropletJS.Class.create({
   }
 });
 
-Mapsheet.GeoBindings = DropletJS.Class.create({
-  latCol: -1,
-  lngCol: -1,
-  radCol: -1,
-
-  construct: function(latCol, lngCol, radCol) {
-    this.latCol = latCol || -1;
-    this.lngCol = lngCol || -1;
-    this.radCol = radCol || -1;
-  }
-});
-
 Mapsheet.TableAdapter = DropletJS.Class.create({
   table: null,
   hideCols: [],
   pageSize: 15,
   currentPage: 1, // 1-based pagination
-  geoBindings: null,
 
   construct: function(table) {
     this.table = table;
@@ -233,6 +230,51 @@ Mapsheet.TableAdapter = DropletJS.Class.create({
     }
 
     return rows;
+  }
+});
+
+Mapsheet.GeoBindings = DropletJS.Class.create({
+  latCol: -1,
+  lngCol: -1,
+  radCol: -1,
+
+  construct: function(latCol, lngCol, radCol) {
+    this.latCol = latCol || -1;
+    this.lngCol = lngCol || -1;
+    this.radCol = radCol || -1;
+  }
+});
+
+Mapsheet.GeoAdapter = DropletJS.Class.create({
+  table: null,
+  geoBindings: null,
+  showRows: [],
+
+  construct: function(table, geoBindings) {
+    this.table = table;
+    this.geoBindings = geoBindings;
+  },
+
+  geoPoint: function(rowId) {
+    var row = this.table.row(rowId);
+    var maybeLat = row.col(this.geoBindings.latCol);
+    var maybeLng = row.col(this.geoBindings.lngCol);
+    var maybeRad = row.col(this.geoBindings.radCol);
+
+    if (maybeLat && maybeLng && maybeRad) {
+      return new Mapsheet.Circle(row, maybeLat, maybeLng, maybeRad);
+    }
+
+    if (maybeLat && maybeLng) {
+      return new Mapsheet.Marker(row, maybeLat, maybeLng);
+    }
+
+    return null;
+  },
+
+  geoPoints: function() {
+    var ptfn = this.geoPoint;
+    return _.compat(_.map(this.showRows, function (r) { return ptfn(r) }));
   }
 });
 

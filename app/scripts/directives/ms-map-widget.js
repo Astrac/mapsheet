@@ -4,7 +4,9 @@ angular.module('mapsheetApp')
   .directive('msMapWidget', function () {
     return {
       templateUrl: 'views/map-widget.html',
-      scope: {},
+      scope: {
+        'msDocument': '='
+      },
       restrict: 'A',
       link: function(scope, element, controller) {
         scope.lat = 0;
