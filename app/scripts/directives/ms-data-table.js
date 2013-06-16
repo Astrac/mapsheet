@@ -14,6 +14,7 @@ angular.module('mapsheetApp')
 
         scope.$watch('msDocument.table', function() {
           scope.table = scope.tableAdapter.view();
+          scope.headers = scope.tableAdapter.colHeaders();
         });
 
         scope.$watch('tableAdapter.currentPage', function() {
@@ -23,13 +24,13 @@ angular.module('mapsheetApp')
         scope.chooseLat = function(col) {
           console.log('chooseLat');
           console.log(col);
-          scope.msGeoAdapter.geoBindings.lat = col;
+          scope.msGeoAdapter.latCol = col;
         };
 
         scope.chooseLng = function(col) {
           console.log('chooseLng');
           console.log(col);
-          scope.msGeoAdapter.geoBindings.lng = col;
+          scope.msGeoAdapter.lngCol = col;
         };
 
         scope.showRow = function(row) {

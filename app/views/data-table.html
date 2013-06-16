@@ -3,12 +3,12 @@
     <thead>
         <tr>
             <th></th>
-            <th class="dropdown" ng-repeat="head in tableAdapter.colHeaders()">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown">{{head}}<b class="caret"></b></a>
+            <th class="dropdown" ng-repeat="header in headers">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown">{{header.label}}<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="">Hide column</a></li>
-                    <li ng-click="chooseLat($index)"><a href="">Use as latitude</a></li>
-                    <li ng-click="chooseLng($index)"><a href="">Use as longitude</a></li>
+                    <li><a href="hideColumn(header.id)">Hide column</a></li>
+                    <li ng-click="chooseLat(header.id)"><a href="">Use as latitude</a></li>
+                    <li ng-click="chooseLng(header.id)"><a href="">Use as longitude</a></li>
                     <li><a href="">Use as radius</a></li>
                 </ul>
             </th>

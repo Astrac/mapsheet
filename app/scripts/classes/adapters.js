@@ -1,21 +1,12 @@
 (function(globals) {
   'use strict';
-  globals.Mapsheet.ColHeader = DropletJS.Class.create({
-    col: -1,
+
+  globals.Mapsheet.Header = DropletJS.Class.create({
+    id: -1,
     label: '',
 
-    construct: function(column, label) {
-      this.col = column;
-      this.label = label;
-    }
-  });
-
-  globals.Mapsheet.RowHeader = DropletJS.Class.create({
-    row: -1,
-    label: '',
-
-    construct: function(row, label) {
-      this.row = row;
+    construct: function(id, label) {
+      this.id = id;
       this.label = label;
     }
   });
@@ -92,26 +83,33 @@
       });
     },
 
+    columns: function() {
+      return this.withTable(function(table) {
+        var minCol = Number.MAX_VALUE;
+        var maxCol = Number.MIN_VALUE;
+        _.each(table.rows, function(row) {
+          _.each(row.cells, function(cell) {
+            minCol = Math.min(cell.col, minCol);
+            maxCol = Math.max(cell.col, maxCol);
+          });
+        });
+
+        return _.range(minCol, maxCol + 1);
+      });
+    },
+
     colHeaders: function() {
       return this.withTable(function(table, self) {
         var row = table.row(self.headersRow);
         if (row) {
-          return row;
+          return _.map(row.cells, function(c) {
+              return new globals.Mapsheet.Header(c.col, c.content);
+            });
         }
 
-        var colIndexes = _.sortBy(_.keys(_.reduce(table.rows, function(memo, row) {
-          _.each(row.cells, function(c) {
-            memo[c.col] = true;
+        return _.map(self.columns(), function(c) {
+            return new globals.Mapsheet.Header(c, String.fromCharCode(65 + parseInt(c, 10)));
           });
-
-          return memo;
-        }, {})), function(idx) { return idx; });
-
-        if (colIndexes && colIndexes[0] !== 0) {
-          colIndexes = _.union(_.range(0, colIndexes[0]), colIndexes);
-        }
-
-        return _.map(colIndexes, function(c) { return String.fromCharCode(65 + parseInt(c, 10)); });
       });
     },
 
