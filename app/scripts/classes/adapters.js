@@ -1,7 +1,7 @@
 (function(globals) {
   'use strict';
 
-  globals.Mapsheet.Header = DropletJS.Class.create({
+  globals.Mapsheet.Column = DropletJS.Class.create({
     id: -1,
     label: '',
 
@@ -30,7 +30,7 @@
     hideCols: [],
     pageSize: 15,
     currentPage: 1, // 1-based pagination
-    headerRow: null,
+    // headerRow: null,
     headerCol: null,
 
     construct: function(doc) {
@@ -83,7 +83,7 @@
       });
     },
 
-    columns: function() {
+    colIndexes: function() {
       return this.withTable(function(table) {
         var minCol = Number.MAX_VALUE;
         var maxCol = Number.MIN_VALUE;
@@ -98,24 +98,29 @@
       });
     },
 
-    colHeaders: function() {
+    columns: function() {
       return this.withTable(function(table, self) {
         var row = table.row(self.headersRow);
         if (row) {
           return _.map(row.cells, function(c) {
-              return new globals.Mapsheet.Header(c.col, c.content);
+              return new globals.Mapsheet.Column(c.col, c.content);
             });
         }
 
-        return _.map(self.columns(), function(c) {
-            return new globals.Mapsheet.Header(c, String.fromCharCode(65 + parseInt(c, 10)));
-          });
+        return _.filter(_.map(self.colIndexes(), function(c) {
+            return new globals.Mapsheet.Column(c, String.fromCharCode(65 + parseInt(c, 10)));
+          }), function(c) { return !_.contains(self.hideCols, c.id); });
       });
     },
 
     rowHeader: function(idx) {
-      // TODO: Real implementation
-      return idx;
+      return this.withTable(function(table, self) {
+        if (table.row(idx)) {
+          return table.row(idx).id + 1;
+        }
+
+        return null;
+      });
     }
   });
 
