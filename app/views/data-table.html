@@ -3,21 +3,21 @@
     <thead>
         <tr>
             <th></th>
-            <th class="dropdown" ng-repeat="header in headers">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown">{{header.label}}<b class="caret"></b></a>
+            <th class="dropdown" ng-repeat="col in columns">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown">{{col.label}}<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="hideColumn(header.id)">Hide column</a></li>
-                    <li ng-click="chooseLat(header.id)"><a href="">Use as latitude</a></li>
-                    <li ng-click="chooseLng(header.id)"><a href="">Use as longitude</a></li>
+                    <li ng-click="hideColumn(col.id)"><a href="">Hide column</a></li>
+                    <li ng-click="chooseLat(col.id)"><a href="">Use as latitude</a></li>
+                    <li ng-click="chooseLng(col.id)"><a href="">Use as longitude</a></li>
                     <li><a href="">Use as radius</a></li>
                 </ul>
             </th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="row in table" ng-click="showRow($index)">
-            <th>{{tableAdapter.rowHeader($index)}}</th>
-            <td ng-repeat="cell in row">{{cell.content}}</td>
+        <tr ng-repeat="row in table" ng-click="showRow(row.id)">
+            <th>{{tableAdapter.rowHeader(row.id)}}</th>
+            <td ng-repeat="col in columns">{{row.col(col.id).content}}</td>
         </tr>
     </tbody>
 </table>

@@ -12,14 +12,10 @@ angular.module('mapsheetApp')
       link: function postLink(scope) {
         scope.tableAdapter = new Mapsheet.TableAdapter(scope.msDocument);
 
-        scope.$watch('msDocument.table', function() {
+        var refreshTable = function() {
           scope.table = scope.tableAdapter.view();
-          scope.headers = scope.tableAdapter.colHeaders();
-        });
-
-        scope.$watch('tableAdapter.currentPage', function() {
-          scope.table = scope.tableAdapter.view();
-        });
+          scope.columns = scope.tableAdapter.colHeaders();
+        };
 
         scope.chooseLat = function(col) {
           console.log('chooseLat');
@@ -35,7 +31,17 @@ angular.module('mapsheetApp')
 
         scope.showRow = function(row) {
           scope.msGeoAdapter.showRows.push(row);
-        }
+        };
+
+        scope.hideColumn = function(col) {
+          console.log('hideCol');
+          console.log(col);
+          scope.tableAdapter.hideCols.push(col);
+        };
+
+        _.each(['msDocument.table', 'tableAdapter.currentPage'], function(prop) {
+            scope.$watch(prop, refreshTable);
+          });
       }
     };
   });

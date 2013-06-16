@@ -27,7 +27,7 @@ angular.module('mapsheetApp')
             });
         });
 
-        scope.$watch('msGeoAdapter.showRows.length', function() {
+        var refreshPoints = function() {
           var points = scope.msGeoAdapter.geoPoints();
           _.each(points, function(point) {
               if (point.type === 'marker') {
@@ -37,7 +37,12 @@ angular.module('mapsheetApp')
                 L.circle([point.lat, point.lng], point.rad).addTo(scope.map);
               }
             });
-        });
+        };
+
+        _.each(['msDocument.table', 'msGeoAdapter.showRows.length', 'msGeoAdapter.latCol',
+          'msGeoAdapter.lngCol', 'msGeoAdapter.radCol'], function(prop) {
+              scope.$watch(prop, refreshPoints);
+            });
       }
     };
   });

@@ -75,7 +75,7 @@
           var hideCols = self.hideCols;
 
           rows = _.map(rows, function(r) {
-            return _.filter(r.cells, function (c) { return !_.contains(hideCols, c.col); });
+            return new globals.Mapsheet.Row(r.id, _.filter(r.cells, function (c) { return !_.contains(hideCols, c.col); }));
           });
         }
 
@@ -114,14 +114,8 @@
     },
 
     rowHeader: function(idx) {
-      return this.withTable(function(table, self) {
-        var col = table.col(self.headersCol);
-        if (col) {
-          return col;
-        }
-
-        return _.find(table.rows[idx].cells, function(c) { return c; }).row + 1;
-      });
+      // TODO: Real implementation
+      return idx;
     }
   });
 
@@ -137,25 +131,37 @@
     },
 
     geoPoint: function(rowId) {
+      var floatCell = function(row, col) {
+        var cell = row.col(col);
+
+        if (cell) {
+          return parseFloat(cell.content);
+        }
+
+        return null;
+      };
+
       return this.withTable(function(table, self) {
         var row = table.row(rowId);
-        var maybeLat = row.col(self.latCol);
-        var maybeLng = row.col(self.lngCol);
-        var maybeRad = row.col(self.radCol);
+        var maybeLat = floatCell(row, self.latCol);
+        var maybeLng = floatCell(row, self.lngCol);
+        var maybeRad = floatCell(row, self.radCol);
 
         if (maybeLat && maybeLng && maybeRad) {
-          return new globals.Mapsheet.Circle(row, maybeLat.content, maybeLng.content, maybeRad.content);
+          return new globals.Mapsheet.Circle(row, maybeLat, maybeLng, maybeRad);
         }
 
         if (maybeLat && maybeLng) {
-          return new globals.Mapsheet.Marker(row, maybeLat.content, maybeLng.content);
+          return new globals.Mapsheet.Marker(row, maybeLat, maybeLng);
         }
       });
     },
 
     geoPoints: function() {
-      return this.withTable(function() {
-        return _.compact(_.map(self.showRows, function (r) { return self.geoPoint(r); }));
+      return this.withTable(function(table, self) {
+        return _.compact(_.map(self.showRows, function (r) {
+          return self.geoPoint(r);
+        }));
       });
     }
   });
