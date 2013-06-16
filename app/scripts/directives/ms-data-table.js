@@ -13,15 +13,15 @@ angular.module('mapsheetApp')
         scope.tableAdapter = new Mapsheet.TableAdapter(scope.msDocument);
 
         scope.chooseLat = function(col) {
-          console.log('chooseLat');
-          console.log(col);
-          scope.msGeoAdapter.latCol = col;
+          scope.msGeoAdapter.latCol = col.id;
         };
 
         scope.chooseLng = function(col) {
-          console.log('chooseLng');
-          console.log(col);
-          scope.msGeoAdapter.lngCol = col;
+          scope.msGeoAdapter.lngCol = col.id;
+        };
+
+        scope.chooseRad = function(col) {
+          scope.msGeoAdapter.radCol = col.id;
         };
 
         scope.showRow = function(row) {
@@ -33,6 +33,10 @@ angular.module('mapsheetApp')
           console.log(col);
           scope.tableAdapter.hideCols.push(col);
         };
+
+        scope.isLat = function(col) { return scope.msGeoAdapter.latCol === col.id; };
+        scope.isLng = function(col) { return scope.msGeoAdapter.lngCol === col.id; };
+        scope.isRad = function(col) { return scope.msGeoAdapter.radCol === col.id; };
 
         var refreshTable = function() {
           scope.table = scope.tableAdapter.view();

@@ -34,7 +34,7 @@ angular.module('mapsheetApp')
                 L.marker([point.lat, point.lng]).addTo(scope.map);
               }
               if (point.type === 'circle') {
-                L.circle([point.lat, point.lng], point.rad).addTo(scope.map);
+                L.circle([point.lat, point.lng], point.rad * 1000).addTo(scope.map);
               }
             });
         };
