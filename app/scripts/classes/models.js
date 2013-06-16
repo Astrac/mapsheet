@@ -55,7 +55,7 @@
     },
 
     row: function(id) {
-      var row = _.filter(function (r) { return r.id === id; });
+      var row = _.filter(this.rows, function (r) { return r.id === id; });
 
       if (row.length === 0) {
         return null;
@@ -105,7 +105,7 @@
     },
 
     cell: function(id) {
-      var cell = _.filter(function (c) { return id === c.id; });
+      var cell = _.filter(this.cells, function (c) { return id === c.id; });
 
       if (cell.length === 0) {
         return null;
@@ -115,7 +115,7 @@
     },
 
     col: function(colId) {
-      var cell = _.filter(function (c) { return colId === c.col; });
+      var cell = _.filter(this.cells, function (c) { return colId === c.col; });
 
       if (cell.length === 0) {
         return null;
@@ -251,7 +251,7 @@
   globals.Mapsheet.GeoAdapter = DropletJS.Class.create({
     table: null,
     geoBindings: null,
-    showRows: [],
+    showRows: [2,3,4],
 
     construct: function(table, geoBindings) {
       this.table = table;
@@ -259,25 +259,27 @@
     },
 
     geoPoint: function(rowId) {
-      var row = this.table.row(rowId);
-      var maybeLat = row.col(this.geoBindings.latCol);
-      var maybeLng = row.col(this.geoBindings.lngCol);
-      var maybeRad = row.col(this.geoBindings.radCol);
+      if (this.table) {
+        var row = this.table.row(rowId);
+        var maybeLat = row.col(this.geoBindings.latCol);
+        var maybeLng = row.col(this.geoBindings.lngCol);
+        var maybeRad = row.col(this.geoBindings.radCol);
 
-      if (maybeLat && maybeLng && maybeRad) {
-        return new globals.Mapsheet.Circle(row, maybeLat, maybeLng, maybeRad);
-      }
+        if (maybeLat && maybeLng && maybeRad) {
+          return new globals.Mapsheet.Circle(row, maybeLat.content, maybeLng.content, maybeRad.content);
+        }
 
-      if (maybeLat && maybeLng) {
-        return new globals.Mapsheet.Marker(row, maybeLat, maybeLng);
+        if (maybeLat && maybeLng) {
+          return new globals.Mapsheet.Marker(row, maybeLat.content, maybeLng.content);
+        }
       }
 
       return null;
     },
 
     geoPoints: function() {
-      var ptfn = this.geoPoint;
-      return _.compat(_.map(this.showRows, function (r) { return ptfn(r); }));
+      var self = this;
+      return _.compact(_.map(this.showRows, function (r) { return self.geoPoint(r); }));
     }
   });
 
@@ -288,11 +290,11 @@
 
   globals.Mapsheet.Marker = DropletJS.Class.extend(globals.Mapsheet.GeoRepresentation, {
     lat: -1,
-    lon: -1,
+    lng: -1,
 
-    construct: function(row, lat, lon) {
+    construct: function(row, lat, lng) {
       this.lat = lat;
-      this.lon = lon;
+      this.lng = lng;
       this.row = row;
       this.type = 'marker';
     }
@@ -300,12 +302,12 @@
 
   globals.Mapsheet.Circle = DropletJS.Class.extend(globals.Mapsheet.GeoRepresentation, {
     lat: -1,
-    lon: -1,
+    lng: -1,
     rad: -1,
 
-    construct: function(row, lat, lon, rad) {
+    construct: function(row, lat, lng, rad) {
       this.lat = lat;
-      this.lon = lon;
+      this.lng = lng;
       this.rad = rad;
       this.row = row;
       this.type = 'circle';

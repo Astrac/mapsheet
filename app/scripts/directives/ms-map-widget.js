@@ -25,6 +25,21 @@ angular.module('mapsheetApp')
               scope.lon = evt.latlng.lng;
             });
         });
+
+        scope.$watch('msDocument.table', function() {
+          var bindings = new Mapsheet.GeoBindings();
+          scope.geoAdapter = new Mapsheet.GeoAdapter(scope.msDocument.table, bindings);
+          var points = scope.geoAdapter.geoPoints();
+
+          _.each(points, function(point) {
+              if (point.type === 'marker') {
+                L.marker([point.lat, point.lng]).addTo(scope.map);
+              }
+              if (point.type === 'circle') {
+                L.circle([point.lat, point.lng], point.rad).addTo(scope.map);
+              }
+            });
+        });
       }
     };
   });
