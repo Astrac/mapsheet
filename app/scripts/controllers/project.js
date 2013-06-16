@@ -16,6 +16,8 @@ angular.module('mapsheetApp')
         .success(function(data) {
           doc.table = tableParser.parse(data);
         });
+
+        $scope.geoAdapter = new Mapsheet.GeoAdapter($scope.doc);
     };
 
     if (docId !== '_empty') {

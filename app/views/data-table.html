@@ -3,20 +3,20 @@
     <thead>
         <tr>
             <th></th>
-            <th class="dropdown" ng-repeat="head in msDocument.table.colHeaders()">
+            <th class="dropdown" ng-repeat="head in tableAdapter.colHeaders()">
                 <a href="" class="dropdown-toggle" data-toggle="dropdown">{{head}}<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li><a href="">Hide column</a></li>
-                    <li><a href="">Use as latitude</a></li>
-                    <li><a href="">Use as longitude</a></li>
+                    <li ng-click="chooseLat($index)"><a href="">Use as latitude</a></li>
+                    <li ng-click="chooseLng($index)"><a href="">Use as longitude</a></li>
                     <li><a href="">Use as radius</a></li>
                 </ul>
             </th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="row in table">
-            <th>{{msDocument.table.rowHeader($index)}}</th>
+        <tr ng-repeat="row in table" ng-click="showRow($index)">
+            <th>{{tableAdapter.rowHeader($index)}}</th>
             <td ng-repeat="cell in row">{{cell.content}}</td>
         </tr>
     </tbody>

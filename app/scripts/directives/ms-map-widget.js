@@ -5,7 +5,8 @@ angular.module('mapsheetApp')
     return {
       templateUrl: 'views/map-widget.html',
       scope: {
-        'msDocument': '='
+        'msDocument': '=',
+        'msGeoAdapter': '='
       },
       restrict: 'A',
       link: function(scope) {
@@ -26,11 +27,8 @@ angular.module('mapsheetApp')
             });
         });
 
-        scope.$watch('msDocument.table', function() {
-          var bindings = new Mapsheet.GeoBindings();
-          scope.geoAdapter = new Mapsheet.GeoAdapter(scope.msDocument.table, bindings);
-          var points = scope.geoAdapter.geoPoints();
-
+        scope.$watch('msGeoAdapter.showRows.length', function() {
+          var points = scope.msGeoAdapter.geoPoints();
           _.each(points, function(point) {
               if (point.type === 'marker') {
                 L.marker([point.lat, point.lng]).addTo(scope.map);

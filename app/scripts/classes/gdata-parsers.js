@@ -52,12 +52,20 @@
 
   globals.Mapsheet.TableParser = DropletJS.Class.extend(globals.Mapsheet.GDataParser, {
     parse: function(data) {
-      var cells = _.filter(_.reduce(data.feed.entry, function(memo, cell) {
+      var numCols = _.max(data.feed.entry, function(e) {
+        return e.gs$cell.col;
+      }).gs$cell.col;
+
+      var rows = _.filter(_.reduce(data.feed.entry, function(memo, cell) {
         var row = cell.gs$cell.row - 1;
         var col = cell.gs$cell.col - 1;
 
         if (!memo[row]) {
-          memo[row] = new globals.Mapsheet.Row(row, []);
+          var newCells = _.times(numCols, function(col) {
+            return new globals.Mapsheet.Cell(null, "", row, col, "");
+          });
+
+          memo[row] = new globals.Mapsheet.Row(row, newCells);
         }
 
         memo[row].setCell(new globals.Mapsheet.Cell(
@@ -67,7 +75,7 @@
         return memo;
       }, []), function(r) { return r.cells.length > 0; });
 
-      return new globals.Mapsheet.Table(cells);
+      return new globals.Mapsheet.Table(rows);
     }
   });
 })(this);
