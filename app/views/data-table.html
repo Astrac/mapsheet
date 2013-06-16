@@ -5,11 +5,10 @@
             <th></th>
             <th class="dropdown" ng-repeat="col in columns">
                 <a href="" class="dropdown-toggle" data-toggle="dropdown">
-                    {{col.label}}
-                    <span class="label" ng-show="isLat(col)">Latitude</span>
-                    <span class="label" ng-show="isLng(col)">Longitude</span>
-                    <span class="label" ng-show="isRad(col)">Radius</span>
-                    <b class="caret"></b>
+                    <span class="label" ng-show="isLat(col)">Lat</span>
+                    <span class="label" ng-show="isLng(col)">Lng</span>
+                    <span class="label" ng-show="isRad(col)">Rad</span>
+                    <p>{{col.label}}<b class="caret"></b></p>
                 </a>
                 <ul class="dropdown-menu">
                     <li ng-click="hideColumn(col)"><a href="">Hide column</a></li>
@@ -21,7 +20,15 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="row in table" ng-click="showRow(row.id)">
+        <!-- <tr ng-repeat="row in msGeoAdapter.showRows" ng-click="hideRow(row)" class="success">
+            <th>{{tableAdapter.rowHeader(row.id)}}</th>
+            <td ng-repeat="col in columns">{{row.col(col.id).content}}</td>
+        </tr>
+        <tr>
+            <th>-</th>
+            <td ng-repeat="col in columns">-</td>
+        </tr> -->
+        <tr ng-repeat="row in table" ng-click="toggleRow(row)" ng-class="{ success: isRowSelected(row) }">
             <th>{{tableAdapter.rowHeader(row.id)}}</th>
             <td ng-repeat="col in columns">{{row.col(col.id).content}}</td>
         </tr>

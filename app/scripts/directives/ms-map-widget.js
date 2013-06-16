@@ -27,16 +27,25 @@ angular.module('mapsheetApp')
             });
         });
 
+        var group = null;
         var refreshPoints = function() {
+          if (group) {
+            group.clearLayers();
+          } else {
+            group = L.layerGroup([]);
+          }
+
           var points = scope.msGeoAdapter.geoPoints();
           _.each(points, function(point) {
               if (point.type === 'marker') {
-                L.marker([point.lat, point.lng]).addTo(scope.map);
+                group.addLayer(L.marker([point.lat, point.lng]));
               }
               if (point.type === 'circle') {
-                L.circle([point.lat, point.lng], point.rad * 1000).addTo(scope.map);
+                group.addLayer(L.circle([point.lat, point.lng], point.rad * 1000));
               }
             });
+
+          group.addTo(scope.map);
         };
 
         _.each(['msDocument.table', 'msGeoAdapter.showRows.length', 'msGeoAdapter.latCol',

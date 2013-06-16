@@ -24,8 +24,18 @@ angular.module('mapsheetApp')
           scope.msGeoAdapter.radCol = col.id;
         };
 
-        scope.showRow = function(row) {
-          scope.msGeoAdapter.showRows.push(row);
+        scope.toggleRow = function(row) {
+          if (_.some(scope.msGeoAdapter.showRows, function(r) { return r.id === row.id; })) {
+            scope.msGeoAdapter.showRows = _.filter(scope.msGeoAdapter.showRows, function(r) {
+                return r.id !== row.id;
+              });
+          } else {
+            scope.msGeoAdapter.showRows.push(row);
+          }
+        };
+
+        scope.isRowSelected = function(row) {
+          return _.some(scope.msGeoAdapter.showRows, function(r) { return r.id === row.id; });
         };
 
         scope.hideColumn = function(col) {

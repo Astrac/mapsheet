@@ -135,9 +135,9 @@
       this.doc = doc;
     },
 
-    geoPoint: function(rowId) {
-      var floatCell = function(row, col) {
-        var cell = row.col(col);
+    geoPoint: function(row) {
+      var floatCell = function(r, c) {
+        var cell = r.col(c);
 
         if (cell) {
           return parseFloat(cell.content);
@@ -147,7 +147,6 @@
       };
 
       return this.withTable(function(table, self) {
-        var row = table.row(rowId);
         var maybeLat = floatCell(row, self.latCol);
         var maybeLng = floatCell(row, self.lngCol);
         var maybeRad = floatCell(row, self.radCol);
