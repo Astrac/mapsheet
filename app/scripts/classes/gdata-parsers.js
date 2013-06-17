@@ -62,7 +62,7 @@
 
         if (!memo[row]) {
           var newCells = _.times(numCols, function(col) {
-            return new globals.Mapsheet.Cell(null, "", row, col, "");
+            return new globals.Mapsheet.Cell(null, '', row, col, '');
           });
 
           memo[row] = new globals.Mapsheet.Row(row, newCells);

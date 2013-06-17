@@ -23,6 +23,7 @@
     },
 
     col: function(id) {
+      console.log('NYI col: ' + id);
       return null;
     }
   });

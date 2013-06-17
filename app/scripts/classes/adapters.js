@@ -118,7 +118,7 @@
     },
 
     rowHeader: function(idx) {
-      return this.withTable(function(table, self) {
+      return this.withTable(function(table) {
         if (table.row(idx)) {
           return table.row(idx).id + 1;
         }
