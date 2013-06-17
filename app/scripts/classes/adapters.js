@@ -1,6 +1,10 @@
 (function(globals) {
   'use strict';
 
+  if (typeof(globals.Mapsheet) === 'undefined') {
+    globals.Mapsheet = {};
+  }
+
   globals.Mapsheet.Column = DropletJS.Class.create({
     id: -1,
     label: '',

@@ -34,6 +34,14 @@ angular.module('mapsheetApp')
           }
         };
 
+        scope.showAll = function() {
+          scope.msGeoAdapter.showRows = scope.msDocument.table.rows;
+        };
+
+        scope.showNone = function() {
+          scope.msGeoAdapter.showRows = [];
+        };
+
         scope.isRowSelected = function(row) {
           return _.some(scope.msGeoAdapter.showRows, function(r) { return r.id === row.id; });
         };
