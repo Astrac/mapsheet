@@ -11,6 +11,7 @@
     "angular-sanitize": "~1.0.7",
     "angular-bootstrap": "~0.3.0",
     "angular-localstorage": "master",
+    "angular-http-auth": "git://github.com/Astrac/angular-http-auth.git#v0.0.1",
     "underscore": "~1.4.4",
     "DropletJS.Class": "~0.2.2",
     "jshashes": "master"

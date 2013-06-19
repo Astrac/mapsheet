@@ -1,9 +1,7 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .factory('msGoogleFeed', function ($http) {
-    var gapiToken = null;
-
+  .factory('msGoogleFeed', ['$http', 'msGoogleAuth', function ($http, msGoogleAuth) {
     var errorHandler = function(data, status) {
       console.log('error');
       console.log(data);
@@ -21,7 +19,7 @@ angular.module('mapsheetApp')
         url: feed,
         params: parameters,
         headers: {
-          Authorization: 'Bearer ' + gapiToken
+          Authorization: 'Bearer ' + msGoogleAuth.getToken()
         }
       }).error(errorHandler);
     };
@@ -30,10 +28,6 @@ angular.module('mapsheetApp')
     delete($http.defaults.headers.common['X-Requested-With']);
 
     return {
-      'request': request,
-      'hasToken': function() { return gapiToken !== null; },
-      'setToken': function(token) {
-        gapiToken = token;
-      }
+      'request': request
     };
-  });
+  }]);
