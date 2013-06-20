@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .factory('msGoogleFeed', ['$http', 'msGoogleAuth', function ($http, msGoogleAuth) {
+  .factory('msGoogleApi', ['$http', 'msGoogleAuth', function ($http, msGoogleAuth) {
     var errorHandler = function(data, status) {
       console.log('error');
       console.log(data);

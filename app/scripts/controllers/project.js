@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .controller('ProjectCtrl', function ($scope, $routeParams, msProjectManager, msGoogleFeed) {
+  .controller('ProjectCtrl', function ($scope, $routeParams, msProjectManager, msGoogleApi) {
     console.log('ProjectCtrl');
 
     var docId = $routeParams.id;
@@ -11,7 +11,7 @@ angular.module('mapsheetApp')
       var doc = msProjectManager.document(docId);
       $scope.doc = doc;
 
-      msGoogleFeed
+      msGoogleApi
         .request(doc.worksheet.cellsFeed)
         .success(function(data) {
           doc.table = tableParser.parse(data);

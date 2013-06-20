@@ -3,8 +3,8 @@
 /* Controllers */
 
 angular.module('mapsheetApp')
-  .controller('MainCtrl', ['msGoogleFeed', '$scope', '$location', 'localStorageService',
-    function(msGoogleFeed, $scope, $location, localStorageService) {
+  .controller('MainCtrl', ['msGoogleApi', '$scope', '$location', 'localStorageService',
+    function(msGoogleApi, $scope, $location, localStorageService) {
       console.log('MainCtrl');
 
       $scope.authorize = function() {
@@ -18,7 +18,7 @@ angular.module('mapsheetApp')
             /* jshint -W106 */
             var token = gapi.auth.getToken().access_token;
 
-            msGoogleFeed.setToken(token);
+            msGoogleApi.setToken(token);
             localStorageService.add('gapi_token', token);
             $location.path('/project/_empty');
           });

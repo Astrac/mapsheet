@@ -20,17 +20,15 @@ angular.module('mapsheetApp', ['ngResource', 'ui.bootstrap', 'LocalStorageModule
         });
     }]).
 
-  run(['$rootScope', 'msGoogleAuth', 'authService',
-    function ($rootScope, msGoogleAuth, authService) {
-      $rootScope.$on('event:auth-loginRequired', function() {
-        msGoogleAuth.authorize(function(token) {
-          if (token) {
-            $rootScope.$apply(function() {
-              authService.loginConfirmed(function(config) {
-                return _.extend(config, {'headers': {'Authorization': 'Bearer ' + msGoogleAuth.getToken() }});
-              });
-            });
-          }
-        })
-      })
-    }]);
+  run(['$rootScope', 'msGoogleAuth', function ($rootScope, msGoogleAuth) {
+    $rootScope.$on('event:auth-loginRequired', function() {
+      msGoogleAuth.authorize();
+    })
+  }]).
+
+  run(['$rootScope', 'msLocalStorage', function($rootScope, msLocalStorage) {
+    msLocalStorage.updateUser();
+    $rootScope.$on('event:auth-loginConfirmed', function() {
+      msLocalStorage.updateUser();
+    });
+  }]);
