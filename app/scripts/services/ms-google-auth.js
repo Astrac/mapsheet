@@ -32,7 +32,8 @@ angular.module('mapsheetApp')
       },
 
       selectAccount: function(callback) {
-        var cfg = _.extend(config, { prompt: "select_account" });
+        var cfg = _.extend(config, { approval_prompt: "force" });
+
         gapi.auth.authorize(cfg, successCallback(callback));
       },
 
