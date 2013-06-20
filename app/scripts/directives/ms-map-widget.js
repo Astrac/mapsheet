@@ -27,6 +27,13 @@ angular.module('mapsheetApp')
             });
         });
 
+        scope.map.on('mouseout', function(evt) {
+          scope.$apply(function() {
+              scope.lat = "";
+              scope.lon = "";
+            });
+        });
+
         var group = null;
         var refreshPoints = function() {
           if (group) {
