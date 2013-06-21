@@ -20,7 +20,7 @@ angular.module('mapsheetApp')
 
           $rootScope.$apply(function() {
             authService.loginConfirmed(function(config) {
-              return _.extend(config, {'headers': {'Authorization': 'Bearer ' + msGoogleAuth.getToken() }});
+              return _.extend(config, {'headers': {'Authorization': 'Bearer ' + token }});
             });
           });
         }
@@ -28,12 +28,12 @@ angular.module('mapsheetApp')
 
       // Public API here
       return {
-        authorize: function(callback) {
+        authorize: function() {
           gapi.auth.authorize(config, successCallback);
         },
 
-        selectAccount: function(callback) {
-          var cfg = _.extend(config, { approval_prompt: "force" });
+        selectAccount: function() {
+          var cfg = _.extend(config, { approval_prompt: 'force' });
 
           gapi.auth.authorize(cfg, successCallback);
         },

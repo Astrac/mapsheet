@@ -27,10 +27,10 @@ angular.module('mapsheetApp')
             });
         });
 
-        scope.map.on('mouseout', function(evt) {
+        scope.map.on('mouseout', function() {
           scope.$apply(function() {
-              scope.lat = "";
-              scope.lon = "";
+              scope.lat = '';
+              scope.lon = '';
             });
         });
 

@@ -23,7 +23,7 @@ angular.module('mapsheetApp', ['ngResource', 'ui.bootstrap', 'LocalStorageModule
   run(['$rootScope', 'msGoogleAuth', function ($rootScope, msGoogleAuth) {
     $rootScope.$on('event:auth-loginRequired', function() {
       msGoogleAuth.authorize();
-    })
+    });
   }]).
 
   run(['$rootScope', 'msLocalStorage', function($rootScope, msLocalStorage) {

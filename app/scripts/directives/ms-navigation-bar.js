@@ -13,12 +13,12 @@ angular.module('mapsheetApp')
           scope.hasWorksheets = !_.isEmpty(scope.documents);
 
           scope.switchAccount = function() {
-            msGoogleAuth.selectAccount(function(t) {
+            msGoogleAuth.selectAccount(function() {
               scope.$apply(function() {
                 $location.path('/');
               });
             });
-          }
+          };
         }
       };
     }]);
