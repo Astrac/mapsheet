@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .controller('OpenWorksheetCtrl', function ($scope, $location, msGoogleApi, msLocalStorage) {
+  .controller('OpenWorksheetCtrl', function ($scope, $location, msGoogleApi, msStorage) {
     console.log('OpenWorksheetCtrl');
 
     // TODO: Register these as services
@@ -30,7 +30,10 @@ angular.module('mapsheetApp')
       if (wrapper.documents.length === 0) {
         msGoogleApi.request(wrapper.spreadsheet.worksheetsFeed).success(function(data) {
           var documents = _.map(data.feed.entry, function(e) {
-            return new Mapsheet.Document(wrapper.spreadsheet, worksheetParser.parse(e));
+            return {
+              spreadsheet: wrapper.spreadsheet,
+              worksheet: worksheetParser.parse(e)
+            };
           });
 
           wrapper.documents = documents;
@@ -39,7 +42,7 @@ angular.module('mapsheetApp')
     };
 
     $scope.openDocument = function(doc) {
-      msLocalStorage.addDocument(doc).then(function(urlId) {
+      msStorage.addDocument(doc).then(function(urlId) {
         $location.path('/project/' + urlId);
       });
     };

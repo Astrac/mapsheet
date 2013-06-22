@@ -26,9 +26,9 @@ angular.module('mapsheetApp', ['ngResource', 'ui.bootstrap', 'LocalStorageModule
     });
   }]).
 
-  run(['$rootScope', 'msLocalStorage', function($rootScope, msLocalStorage) {
+  run(['$rootScope', 'msStorage', function($rootScope, msStorage) {
     $rootScope.$on('event:auth-loginConfirmed', function() {
-      msLocalStorage.init();
+      msStorage.init();
     });
   }]).
 

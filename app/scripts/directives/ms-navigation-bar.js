@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .directive('msNavigationBar', ['msLocalStorage', 'msGoogleAuth', '$location',
-    function (msLocalStorage, msGoogleAuth, $location) {
+  .directive('msNavigationBar', ['msStorage', 'msGoogleAuth', '$location',
+    function (msStorage, msGoogleAuth, $location) {
       return {
         templateUrl: 'views/navigation-bar.html',
         scope: {},
@@ -10,7 +10,7 @@ angular.module('mapsheetApp')
         replace: true,
         link: function postLink(scope) {
           var refresh = function() {
-            msLocalStorage.getDocuments().then(function(documents) {
+            msStorage.getDocuments().then(function(documents) {
               scope.documents = documents;
               scope.hasWorksheets = !_.isEmpty(scope.documents);
             });

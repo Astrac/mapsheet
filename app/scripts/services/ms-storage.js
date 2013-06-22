@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .factory('msLocalStorage', ['$q', 'localStorageService', 'msGoogleApi', 'msGoogleAuth',
+  .factory('msStorage', ['$q', 'localStorageService', 'msGoogleApi', 'msGoogleAuth',
     function ($q, localStorageService, msGoogleApi) {
 
       var url = 'https://www.googleapis.com/oauth2/v2/userinfo?key=';

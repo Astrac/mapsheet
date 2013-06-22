@@ -77,41 +77,4 @@
       this.content = content;
     }
   });
-
-  globals.Mapsheet.Document = DropletJS.Class.create({
-    id: null,
-    spreadsheet: null,
-    worksheet: null,
-    table: null,
-
-    construct: function(spreadsheet, worksheet, table) {
-      this.spreadsheet = spreadsheet;
-      this.worksheet = worksheet;
-      this.id = this.worksheet.getHashId();
-      if (table) {
-        this.table = table;
-      }
-    }
-  });
-
-  globals.Mapsheet.Project = DropletJS.Class.create({
-    documents: [],
-    current: null,
-
-    construct: function(documents, current) {
-      this.documents = documents;
-      if (current) {
-        this.current = current;
-      } else if (documents) {
-        this.current = documents[0];
-      }
-    },
-
-    setCurrent: function(documentId) {
-      var candidates = _.filter(this.documents, function(doc) { return doc.id === documentId; });
-      if (candidates) {
-        this.current = candidates[0];
-      }
-    }
-  });
 }(this));
