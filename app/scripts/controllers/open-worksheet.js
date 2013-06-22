@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .controller('OpenWorksheetCtrl', function ($scope, $location, msGoogleApi, msProjectManager) {
+  .controller('OpenWorksheetCtrl', function ($scope, $location, msGoogleApi, msLocalStorage) {
     console.log('OpenWorksheetCtrl');
 
     // TODO: Register these as services
@@ -39,8 +39,9 @@ angular.module('mapsheetApp')
     };
 
     $scope.openDocument = function(doc) {
-      var urlId = msProjectManager.load(doc);
-      $location.path('/project/' + urlId);
+      msLocalStorage.addDocument(doc).then(function(urlId) {
+        $location.path('/project/' + urlId);
+      });
     };
 
     msGoogleApi.request('https://spreadsheets.google.com/feeds/spreadsheets/private/full').success(spreadsheetsHandler);

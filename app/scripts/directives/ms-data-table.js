@@ -7,11 +7,10 @@ angular.module('mapsheetApp')
       restrict: 'A',
       scope: {
         msDocument: '=',
-        msGeoAdapter: '='
+        msGeoAdapter: '=',
+        msTableAdapter: '='
       },
-      link: function postLink(scope) {
-        scope.tableAdapter = new Mapsheet.TableAdapter(scope.msDocument);
-
+      link: function (scope) {
         scope.chooseLat = function(col) {
           scope.msGeoAdapter.latCol = col.id;
         };
@@ -47,9 +46,9 @@ angular.module('mapsheetApp')
         };
 
         scope.hideColumn = function(col) {
-          console.log('hideCol');
-          console.log(col);
-          scope.tableAdapter.hideCols.push(col);
+          if (scope.msTableAdapter){
+            scope.msTableAdapter.hideCols.push(col);
+          }
         };
 
         scope.isLat = function(col) { return scope.msGeoAdapter.latCol === col.id; };
@@ -57,8 +56,10 @@ angular.module('mapsheetApp')
         scope.isRad = function(col) { return scope.msGeoAdapter.radCol === col.id; };
 
         var refreshTable = function() {
-          scope.table = scope.tableAdapter.view();
-          scope.columns = scope.tableAdapter.columns();
+          if (scope.msTableAdapter) {
+            scope.table = scope.msTableAdapter.view();
+            scope.columns = scope.msTableAdapter.columns();
+          }
         };
 
         _.each(['msDocument.table', 'tableAdapter.currentPage', 'tableAdapter.hideCols.length'], function(prop) {

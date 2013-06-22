@@ -42,15 +42,17 @@ angular.module('mapsheetApp')
             group = L.layerGroup([]);
           }
 
-          var points = scope.msGeoAdapter.geoPoints();
-          _.each(points, function(point) {
-              if (point.type === 'marker') {
-                group.addLayer(L.marker([point.lat, point.lng]));
-              }
-              if (point.type === 'circle') {
-                group.addLayer(L.circle([point.lat, point.lng], point.rad * 1000));
-              }
-            });
+          if (scope.msGeoAdapter) {
+            var points = scope.msGeoAdapter.geoPoints();
+            _.each(points, function(point) {
+                if (point.type === 'marker') {
+                  group.addLayer(L.marker([point.lat, point.lng]));
+                }
+                if (point.type === 'circle') {
+                  group.addLayer(L.circle([point.lat, point.lng], point.rad * 1000));
+                }
+              });
+          }
 
           group.addTo(scope.map);
         };
