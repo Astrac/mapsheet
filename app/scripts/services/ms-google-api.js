@@ -24,9 +24,6 @@ angular.module('mapsheetApp')
       }).error(errorHandler);
     };
 
-    // Otherwise CORS will fail, find a better way of doing it!
-    delete($http.defaults.headers.common['X-Requested-With']);
-
     return {
       'request': request
     };

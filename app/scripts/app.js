@@ -30,4 +30,9 @@ angular.module('mapsheetApp', ['ngResource', 'ui.bootstrap', 'LocalStorageModule
     $rootScope.$on('event:auth-loginConfirmed', function() {
       msLocalStorage.init();
     });
+  }]).
+
+  run(['$http', function($http) {
+    // Otherwise CORS will fail, find a way of doing it in the msGoogleApi service!
+    delete($http.defaults.headers.common['X-Requested-With']);
   }]);
