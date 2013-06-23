@@ -2,9 +2,6 @@
 
 angular.module('mapsheetApp')
   .factory('msTable', function ($q, msDocument) {
-    // TODO: This should be a service on its own!
-    var tableParser = new Mapsheet.TableParser();
-
     var tableConfig = function() {
       return msDocument.getDocument().config.table;
     };
@@ -87,12 +84,12 @@ angular.module('mapsheetApp')
               return {
                 id: r.id,
                 cells: _.filter(r.cells, function (c) { return !_.contains(config.hideColumns, c.col); })
-              }
+              };
             });
           }
 
           return rows;
         });
       }
-    }
+    };
   });

@@ -5,7 +5,6 @@ angular.module('mapsheetApp')
     console.log('ProjectCtrl');
 
     var docId = $routeParams.id;
-    var tableParser = new Mapsheet.TableParser();
 
     var reloadDocument = function() {
       return msStorage.getDocument(docId).then(function(doc) {

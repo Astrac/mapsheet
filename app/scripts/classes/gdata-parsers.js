@@ -68,7 +68,7 @@
               'row': row,
               'col': col,
               content: ''
-            }
+            };
           });
 
           memo[row] = { id: row, cells:  newCells };
@@ -80,7 +80,7 @@
           'row': row,
           'col': col,
           content: cell.content.$t
-        }
+        };
 
         return memo;
       }, []), function(r) { return r.cells.length > 0; });

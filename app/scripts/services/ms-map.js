@@ -33,7 +33,7 @@ angular.module('mapsheetApp')
           lng: maybeLng,
           rad: maybeRad,
           type: 'circle'
-        }
+        };
       }
 
       if (maybeLat && maybeLng) {
@@ -42,7 +42,7 @@ angular.module('mapsheetApp')
           lat: maybeLat,
           lng: maybeLng,
           type: 'marker'
-        }
+        };
       }
     };
 
@@ -57,7 +57,7 @@ angular.module('mapsheetApp')
         return {
           config: msDocument.getDocument().config,
           showingCount: showRows.length
-        }
+        };
       },
       getShowRows: function() {
         return showRows;
