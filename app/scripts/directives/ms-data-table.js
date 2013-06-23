@@ -22,7 +22,6 @@ angular.module('mapsheetApp')
               scope.columns = columns;
             })
             msTable.totalPages().then(function(pages) {
-              console.log(pages);
               scope.totalPages = pages;
               scope.page = msTable.getPage();;
             })

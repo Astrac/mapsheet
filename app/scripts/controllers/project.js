@@ -16,7 +16,6 @@ angular.module('mapsheetApp')
 
         msDocument.open(doc);
         $scope.doc = doc;
-        $scope.tableAdapter = msDocument.table;
       });
     };
 
