@@ -11,17 +11,9 @@ angular.module('mapsheetApp')
     };
 
     var totalPages = function() {
-      getTable().then(function(t) {
+      return getTable().then(function(t) {
         return Math.ceil(t.length / tableConfig().pageSize);
       });
-    };
-
-    var hasPrevPage = function() {
-      return tableConfig().page > 1;
-    };
-
-    var hasNextPage = function() {
-      return tableConfig().page < totalPages();
     };
 
     var colIndexes = function(table) {
@@ -41,21 +33,19 @@ angular.module('mapsheetApp')
 
     return {
       totalPages: totalPages,
-      hasPrevPage: hasPrevPage,
-      hasNextPage: hasNextPage,
 
       getDocument: function () { return msDocument; },
 
       nextPage: function() {
-        if (hasNextPage()) {
-          tableConfig().page++;
-        }
+        tableConfig().page++;
       },
 
       prevPage: function() {
-        if (hasPrevPage()) {
-          tableConfig().page--;
-        }
+        tableConfig().page--;
+      },
+
+      getPage: function() {
+        return tableConfig().page;
       },
 
       columns: function() {
