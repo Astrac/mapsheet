@@ -24,8 +24,8 @@
     </thead>
     <tbody>
         <tr ng-repeat="row in table" ng-click="toggleRow(row)" ng-class="{ success: isRowSelected(row) }">
-            <th>{{msTableAdapter.rowHeader(row.id)}}</th>
-            <td ng-repeat="col in columns">{{row.col(col.id).content}}</td>
+            <th>{{row.id + 1}}</th>
+            <td ng-repeat="col in columns">{{row.cells[col.id].content}}</td>
         </tr>
     </tbody>
 </table>

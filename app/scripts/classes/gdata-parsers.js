@@ -65,17 +65,17 @@
             return new globals.Mapsheet.Cell(null, '', row, col, '');
           });
 
-          memo[row] = new globals.Mapsheet.Row(row, newCells);
+          memo[row] = { id: row, cells:  newCells };
         }
 
-        memo[row].setCell(new globals.Mapsheet.Cell(
+        memo[row].cells[col] = new globals.Mapsheet.Cell(
           cell.id.$t, cell.title.$t, row, col, cell.content.$t
-        ));
+        );
 
         return memo;
       }, []), function(r) { return r.cells.length > 0; });
 
-      return new globals.Mapsheet.Table(rows);
+      return rows;
     }
   });
 })(this);

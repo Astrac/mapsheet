@@ -14,13 +14,10 @@ angular.module('mapsheetApp')
           return;
         }
 
-        msDocument.open(doc).then(function(doc) {
-          console.log(doc);
-          $scope.doc = doc;
-          $scope.geoAdapter = new Mapsheet.GeoAdapter(doc);
-          $scope.tableAdapter = new Mapsheet.TableAdapter(doc);
-          console.log($scope.tableAdapter);
-        });
+        msDocument.open(doc);
+        $scope.doc = doc;
+        $scope.tableAdapter = msDocument.table;
+        $scope.geoAdapter = new Mapsheet.GeoAdapter(doc);
       });
     };
 

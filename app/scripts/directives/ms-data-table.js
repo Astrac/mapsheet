@@ -1,16 +1,29 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .directive('msDataTable', function () {
+  .directive('msDataTable', function (msDocument) {
     return {
       templateUrl: 'views/data-table.html',
       restrict: 'A',
       scope: {
-        msDocument: '=',
-        msGeoAdapter: '=',
-        msTableAdapter: '='
+        msGeoAdapter: '='
       },
       link: function (scope) {
+        scope.msDocument = msDocument;
+
+        scope.$watch(function() {
+            return msDocument.table.isUpToDate();
+          }, function() {
+            msDocument.table.view().then(function(table) {
+              scope.table = table;
+              scope.columns = msDocument.table.columns();
+            });
+            msDocument.table.columns().then(function(columns) {
+              scope.columns = columns;
+              console.log(columns);
+            })
+          });
+
         scope.chooseLat = function(col) {
           scope.msGeoAdapter.latCol = col.id;
         };
@@ -45,26 +58,13 @@ angular.module('mapsheetApp')
           return _.some(scope.msGeoAdapter.showRows, function(r) { return r.id === row.id; });
         };
 
-        scope.hideColumn = function(col) {
-          if (scope.msTableAdapter){
-            scope.msTableAdapter.hideCols.push(col);
-          }
-        };
+        // scope.isLat = function(col) { return scope.msGeoAdapter.latCol === col.id; };
+        // scope.isLng = function(col) { return scope.msGeoAdapter.lngCol === col.id; };
+        // scope.isRad = function(col) { return scope.msGeoAdapter.radCol === col.id; };
 
-        scope.isLat = function(col) { return scope.msGeoAdapter.latCol === col.id; };
-        scope.isLng = function(col) { return scope.msGeoAdapter.lngCol === col.id; };
-        scope.isRad = function(col) { return scope.msGeoAdapter.radCol === col.id; };
-
-        var refreshTable = function() {
-          if (scope.msTableAdapter) {
-            scope.table = scope.msTableAdapter.view();
-            scope.columns = scope.msTableAdapter.columns();
-          }
-        };
-
-        _.each(['msDocument.table', 'tableAdapter.currentPage', 'tableAdapter.hideCols.length'], function(prop) {
-            scope.$watch(prop, refreshTable);
-          });
+        // _.each(['msDocument.doc', 'msDocument.table', 'tableAdapter.currentPage', 'tableAdapter.hideCols.length'], function(prop) {
+        //     scope.$watch(prop, refreshTable);
+        //   });
       }
     };
   });
