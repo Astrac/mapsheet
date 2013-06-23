@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .directive('msDataTable', function (msTable) {
+  .directive('msDataTable', function (msTable, msMap) {
     return {
       templateUrl: 'views/data-table.html',
       restrict: 'A',
       scope: {
-        msGeoAdapter: '='
       },
       link: function (scope) {
-        scope.msTable = msTable;
+        scope.table = msTable;
+        scope.map = msMap;
 
         scope.$watch(function() {
             return msTable.getDocument().isTableUpToDate();
@@ -23,47 +23,48 @@ angular.module('mapsheetApp')
             })
           });
 
+        var mapConfig = msMap.getMapConfig;
+
         scope.chooseLat = function(col) {
-          scope.msGeoAdapter.latCol = col.id;
+          mapConfig().latCol = col.id;
         };
 
         scope.chooseLng = function(col) {
-          scope.msGeoAdapter.lngCol = col.id;
+          mapConfig().lngCol = col.id;
         };
 
         scope.chooseRad = function(col) {
-          scope.msGeoAdapter.radCol = col.id;
+          mapConfig().radCol = col.id;
         };
 
         scope.toggleRow = function(row) {
-          if (_.some(scope.msGeoAdapter.showRows, function(r) { return r.id === row.id; })) {
-            scope.msGeoAdapter.showRows = _.filter(scope.msGeoAdapter.showRows, function(r) {
+          if (_.some(msMap.getShowRows(), function(r) { return r.id === row.id; })) {
+            msMap.setShowRows(
+              _.filter(msMap.getShowRows(), function(r) {
                 return r.id !== row.id;
-              });
+              }));
           } else {
-            scope.msGeoAdapter.showRows.push(row);
+            msMap.addShowRow(row);
           }
         };
 
         scope.showAll = function() {
-          scope.msGeoAdapter.showRows = scope.msTable.rows;
+          msTable.getTable().then(function(table) {
+            msMap.setShowRows(table);
+          });
         };
 
         scope.showNone = function() {
-          scope.msGeoAdapter.showRows = [];
+          msMap.setShowRows([]);
         };
 
         scope.isRowSelected = function(row) {
-          return _.some(scope.msGeoAdapter.showRows, function(r) { return r.id === row.id; });
+          return _.some(msMap.getShowRows(), function(r) { return r.id === row.id; });
         };
 
-        // scope.isLat = function(col) { return scope.msGeoAdapter.latCol === col.id; };
-        // scope.isLng = function(col) { return scope.msGeoAdapter.lngCol === col.id; };
-        // scope.isRad = function(col) { return scope.msGeoAdapter.radCol === col.id; };
-
-        // _.each(['msDocument.doc', 'msTable', 'tableAdapter.currentPage', 'tableAdapter.hideCols.length'], function(prop) {
-        //     scope.$watch(prop, refreshTable);
-        //   });
+        scope.isLat = function(col) { return mapConfig().latCol === col.id; };
+        scope.isLng = function(col) { return mapConfig().lngCol === col.id; };
+        scope.isRad = function(col) { return mapConfig().radCol === col.id; };
       }
     };
   });

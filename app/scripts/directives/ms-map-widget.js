@@ -1,12 +1,10 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .directive('msMapWidget', function () {
+  .directive('msMapWidget', function (msMap) {
     return {
       templateUrl: 'views/map-widget.html',
       scope: {
-        'msDocument': '=',
-        'msGeoAdapter': '='
       },
       restrict: 'A',
       link: function(scope) {
@@ -42,25 +40,23 @@ angular.module('mapsheetApp')
             group = L.layerGroup([]);
           }
 
-          if (scope.msGeoAdapter) {
-            var points = scope.msGeoAdapter.geoPoints();
-            _.each(points, function(point) {
-                if (point.type === 'marker') {
-                  group.addLayer(L.marker([point.lat, point.lng]));
-                }
-                if (point.type === 'circle') {
-                  group.addLayer(L.circle([point.lat, point.lng], point.rad * 1000));
-                }
-              });
-          }
+          var points = msMap.geoPoints();
+          _.each(points, function(point) {
+              if (point.type === 'marker') {
+                group.addLayer(L.marker([point.lat, point.lng]));
+              }
+              if (point.type === 'circle') {
+                group.addLayer(L.circle([point.lat, point.lng], point.rad * 1000));
+              }
+            });
 
           group.addTo(scope.map);
         };
 
-        _.each(['msDocument.table', 'msGeoAdapter.showRows.length', 'msGeoAdapter.latCol',
-          'msGeoAdapter.lngCol', 'msGeoAdapter.radCol'], function(prop) {
-              scope.$watch(prop, refreshPoints);
-            });
+        scope.$watch(
+          function() {
+            return msMap.getShowRows();
+          }, refreshPoints, true);
       }
     };
   });

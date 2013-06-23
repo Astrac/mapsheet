@@ -72,6 +72,8 @@ angular.module('mapsheetApp')
         });
       },
 
+      getTable: getTable,
+
       view: function() {
         return getTable().then(function(table) {
           var rows = [];

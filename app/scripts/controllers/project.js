@@ -17,7 +17,6 @@ angular.module('mapsheetApp')
         msDocument.open(doc);
         $scope.doc = doc;
         $scope.tableAdapter = msDocument.table;
-        $scope.geoAdapter = new Mapsheet.GeoAdapter(doc);
       });
     };
 
