@@ -62,15 +62,25 @@
 
         if (!memo[row]) {
           var newCells = _.times(numCols, function(col) {
-            return new globals.Mapsheet.Cell(null, '', row, col, '');
+            return {
+              id: null,
+              name: '',
+              'row': row,
+              'col': col,
+              content: ''
+            }
           });
 
           memo[row] = { id: row, cells:  newCells };
         }
 
-        memo[row].cells[col] = new globals.Mapsheet.Cell(
-          cell.id.$t, cell.title.$t, row, col, cell.content.$t
-        );
+        memo[row].cells[col] = {
+          id: cell.id.$t,
+          name: cell.title.$t,
+          'row': row,
+          'col': col,
+          content: cell.content.$t
+        }
 
         return memo;
       }, []), function(r) { return r.cells.length > 0; });
