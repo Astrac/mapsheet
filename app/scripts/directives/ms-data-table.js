@@ -12,7 +12,7 @@ angular.module('mapsheetApp')
         scope.map = msMap;
 
         scope.$watch(function() {
-            return msTable.getDocument().isTableUpToDate();
+            return msTable.getStatus();
           }, function() {
             msTable.view().then(function(table) {
               scope.table = table;
@@ -20,12 +20,9 @@ angular.module('mapsheetApp')
             });
             msTable.columns().then(function(columns) {
               scope.columns = columns;
-            })
-            msTable.totalPages().then(function(pages) {
-              scope.totalPages = pages;
-              scope.page = msTable.getPage();;
-            })
-          });
+            });
+            scope.pagination = msTable.pagination;
+          }, true);
 
         var mapConfig = msMap.getMapConfig;
 

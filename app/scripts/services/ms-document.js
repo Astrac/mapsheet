@@ -14,40 +14,39 @@ angular.module('mapsheetApp')
       table: {
         rowHeader: false,
         hideColumns: [],
-        pageSize: 15,
-        page: 1
+        pageSize: 15
       }
     };
 
     var doc = {
       config: defaults
     };
+    var tableDocId = null;
     var table = [];
-    var tableUpToDate = true;
 
     return {
       open: function (d) {
         d.config = _.extend(defaults, d.config);
         doc = d;
-        tableUpToDate = false;
       },
       getDocument: function() {
         return doc;
       },
-      isTableUpToDate: function() {
-        return tableUpToDate;
-      },
       getTable: function() {
         var deferred = $q.defer();
 
-        if (tableUpToDate) {
+        if (tableDocId === doc.id) {
           deferred.resolve(table);
-        } else {
+        } else if (doc.worksheet) {
           msGoogleApi
             .request(doc.worksheet.cellsFeed)
             .success(function(data) {
-              deferred.resolve(tableParser.parse(data));
+              tableDocId = doc.id;
+              table = tableParser.parse(data);
+              deferred.resolve(table);
             });
+        } else {
+          deferred.reject('No worksheet defined');
         }
 
         return deferred.promise;

@@ -53,6 +53,12 @@ angular.module('mapsheetApp')
           return geoPoint(r);
         }));
       },
+      getStatus: function() {
+        return {
+          config: msDocument.getDocument().config,
+          showingCount: showRows.length
+        }
+      },
       getShowRows: function() {
         return showRows;
       },

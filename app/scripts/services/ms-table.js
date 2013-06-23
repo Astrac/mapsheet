@@ -4,15 +4,21 @@ angular.module('mapsheetApp')
   .factory('msTable', function ($q, msDocument) {
     // TODO: This should be a service on its own!
     var tableParser = new Mapsheet.TableParser();
-    var getTable = msDocument.getTable;
 
     var tableConfig = function() {
       return msDocument.getDocument().config.table;
     };
 
-    var totalPages = function() {
-      return getTable().then(function(t) {
-        return Math.ceil(t.length / tableConfig().pageSize);
+    var pagination = {
+      pages: 1,
+      page: 1
+    };
+
+    var getTable = function() {
+      return msDocument.getTable().then(function(t) {
+        pagination.pages = Math.ceil(t.length / tableConfig().pageSize);
+
+        return t;
       });
     };
 
@@ -32,20 +38,23 @@ angular.module('mapsheetApp')
     };
 
     return {
-      totalPages: totalPages,
+      pagination: pagination,
 
       getDocument: function () { return msDocument; },
 
       nextPage: function() {
-        tableConfig().page++;
+        pagination.page++;
+      },
+
+      getStatus: function() {
+        return  {
+          config: msDocument.getDocument().config,
+          pagination: pagination
+        };
       },
 
       prevPage: function() {
-        tableConfig().page--;
-      },
-
-      getPage: function() {
-        return tableConfig().page;
+        pagination.page--;
       },
 
       columns: function() {
@@ -70,7 +79,7 @@ angular.module('mapsheetApp')
           var config = tableConfig();
 
           if (table) {
-            var firstRow = (config.page - 1) * config.pageSize;
+            var firstRow = (pagination.page - 1) * config.pageSize;
             var lastRow = firstRow + config.pageSize;
             rows = table.slice(firstRow, lastRow);
 

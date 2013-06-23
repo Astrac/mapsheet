@@ -55,7 +55,7 @@ angular.module('mapsheetApp')
 
         scope.$watch(
           function() {
-            return msMap.getShowRows();
+            return msMap.getStatus();
           }, refreshPoints, true);
       }
     };
