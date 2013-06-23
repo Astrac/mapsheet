@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .directive('msDataTable', function (msDocument) {
+  .directive('msDataTable', function (msTable) {
     return {
       templateUrl: 'views/data-table.html',
       restrict: 'A',
@@ -9,18 +9,17 @@ angular.module('mapsheetApp')
         msGeoAdapter: '='
       },
       link: function (scope) {
-        scope.msDocument = msDocument;
+        scope.msTable = msTable;
 
         scope.$watch(function() {
-            return msDocument.table.isUpToDate();
+            return msTable.getDocument().isTableUpToDate();
           }, function() {
-            msDocument.table.view().then(function(table) {
+            msTable.view().then(function(table) {
               scope.table = table;
-              scope.columns = msDocument.table.columns();
+              scope.columns = msTable.columns();
             });
-            msDocument.table.columns().then(function(columns) {
+            msTable.columns().then(function(columns) {
               scope.columns = columns;
-              console.log(columns);
             })
           });
 
@@ -47,7 +46,7 @@ angular.module('mapsheetApp')
         };
 
         scope.showAll = function() {
-          scope.msGeoAdapter.showRows = scope.msDocument.table.rows;
+          scope.msGeoAdapter.showRows = scope.msTable.rows;
         };
 
         scope.showNone = function() {
@@ -62,7 +61,7 @@ angular.module('mapsheetApp')
         // scope.isLng = function(col) { return scope.msGeoAdapter.lngCol === col.id; };
         // scope.isRad = function(col) { return scope.msGeoAdapter.radCol === col.id; };
 
-        // _.each(['msDocument.doc', 'msDocument.table', 'tableAdapter.currentPage', 'tableAdapter.hideCols.length'], function(prop) {
+        // _.each(['msDocument.doc', 'msTable', 'tableAdapter.currentPage', 'tableAdapter.hideCols.length'], function(prop) {
         //     scope.$watch(prop, refreshTable);
         //   });
       }

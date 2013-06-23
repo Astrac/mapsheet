@@ -1,115 +1,97 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .factory('msTable', function ($q, msGoogleApi) {
+  .factory('msTable', function ($q, msDocument) {
     // TODO: This should be a service on its own!
     var tableParser = new Mapsheet.TableParser();
+    var getTable = msDocument.getTable;
 
-    var cachedDoc = {};
+    var tableConfig = function() {
+      return msDocument.getDocument().config.table;
+    };
+
+    var totalPages = function() {
+      getTable().then(function(t) {
+        return Math.ceil(t.length / tableConfig().pageSize);
+      });
+    };
+
+    var hasPrevPage = function() {
+      return tableConfig().page > 1;
+    };
+
+    var hasNextPage = function() {
+      return tableConfig().page < totalPages();
+    };
+
+    var colIndexes = function(table) {
+      var minCol = Number.MAX_VALUE;
+      var maxCol = Number.MIN_VALUE;
+      _.each(table, function(row) {
+        _.each(row.cells, function(cell) {
+          minCol = Math.min(cell.col, minCol);
+          maxCol = Math.max(cell.col, maxCol);
+        });
+      });
+
+      var idxs = _.range(minCol, maxCol + 1);
+
+      return idxs;
+    };
 
     return {
-      withTable: function(doc) {
-        var deferred = $q.defer();
+      totalPages: totalPages,
+      hasPrevPage: hasPrevPage,
+      hasNextPage: hasNextPage,
 
-        if (doc.id === cachedDoc.id) {
-          deferred.resolve(doc);
-        } else {
-          msGoogleApi
-            .request(doc.worksheet.cellsFeed)
-            .success(function(data) {
-              doc.table = tableParser.parse(data);
-              cachedDoc = doc;
-              deferred.resolve(doc);
-            });
-        }
-
-        return deferred.promise;
-      },
-
-      totalPages: function() {
-        return this.withTable(function(table, self) {
-          return table ? Math.ceil(table.rows.length / self.pageSize) : 0;
-        });
-      },
-
-      hasPrevPage: function() {
-        return this.currentPage > 1;
-      },
-
-      hasNextPage: function() {
-        return this.currentPage < this.totalPages();
-      },
+      getDocument: function () { return msDocument; },
 
       nextPage: function() {
-        if (this.hasNextPage()) {
-          this.currentPage++;
+        if (hasNextPage()) {
+          tableConfig().page++;
         }
       },
 
       prevPage: function() {
-        if (this.hasPrevPage()) {
-          this.currentPage--;
+        if (hasPrevPage()) {
+          tableConfig().page--;
         }
       },
 
+      columns: function() {
+        return getTable().then(function(table) {
+          return _.filter(
+            _.map(colIndexes(table), function(c) {
+              return {
+                id: c,
+                label: String.fromCharCode(65 + parseInt(c, 10))
+              };
+            }), function(c) {
+              return !_.contains(tableConfig().hideColumns, c.id);
+            });
+        });
+      },
+
       view: function() {
-        return this.withTable(function(table, self) {
+        return getTable().then(function(table) {
           var rows = [];
+          var config = tableConfig();
 
           if (table) {
-            var firstRow = (self.currentPage - 1) * self.pageSize;
-            var lastRow = firstRow + self.pageSize;
-            rows = table.rows.slice(firstRow, lastRow);
-
-            var hideCols = self.hideCols;
+            var firstRow = (config.page - 1) * config.pageSize;
+            var lastRow = firstRow + config.pageSize;
+            rows = table.slice(firstRow, lastRow);
 
             rows = _.map(rows, function(r) {
-              return new globals.Mapsheet.Row(r.id, _.filter(r.cells, function (c) { return !_.contains(hideCols, c.col); }));
+              return {
+                id: r.id,
+                cells: _.filter(r.cells, function (c) { return !_.contains(config.hideColumns, c.col); })
+              }
             });
           }
 
           return rows;
         });
-      },
-
-      colIndexes: function() {
-        return this.withTable(function(table) {
-          var minCol = Number.MAX_VALUE;
-          var maxCol = Number.MIN_VALUE;
-          _.each(table.rows, function(row) {
-            _.each(row.cells, function(cell) {
-              minCol = Math.min(cell.col, minCol);
-              maxCol = Math.max(cell.col, maxCol);
-            });
-          });
-
-          return _.range(minCol, maxCol + 1);
-        });
-      },
-
-      columns: function() {
-        return this.withTable(function(table, self) {
-          var row = table.row(self.headersRow);
-          if (row) {
-            return _.map(row.cells, function(c) {
-                return new globals.Mapsheet.Column(c.col, c.content);
-              });
-          }
-
-          return _.filter(_.map(self.colIndexes(), function(c) {
-              return new globals.Mapsheet.Column(c, String.fromCharCode(65 + parseInt(c, 10)));
-            }), function(c) { return !_.contains(self.hideCols, c.id); });
-        });
-      },
-
-      rowHeader: function(idx) {
-        return this.withTable(function(table) {
-          if (table.row(idx)) {
-            return table.row(idx).id + 1;
-          }
-
-          return null;
-        });
       }
-    };
+    }
   });
