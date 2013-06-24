@@ -1,0 +1,40 @@
+<div class="well">
+  <h3>Data configuration</h3>
+  <form>
+    <fieldset>
+      <legend>Table properties</legend>
+      <label class="checkbox">
+        <input type="checkbox"> Use first row as header
+      </label>
+      <div class="btn-group">
+          <label class="checkbox" ng-repeat="column in columnStatuses">
+            <input type="checkbox" ng-model="column.show"> {{column.title}}
+          </label>
+      </div>
+    </fieldset>
+    <fieldset>
+        <legend>Map bindings</legend>
+        <label>Latitude column</label>
+        <select>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>...</option>
+        </select>
+        <label>Longitude column</label>
+        <select>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>...</option>
+        </select>
+        <label>Radius column</label>
+        <select>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>...</option>
+        </select>
+    </fieldset>
+  </form>
+</div>
