@@ -45,7 +45,7 @@ angular.module('mapsheetApp')
 
       getStatus: function() {
         return  {
-          config: msDocument.getDocument().config,
+          config: msDocument.doc,
           pagination: pagination
         };
       },

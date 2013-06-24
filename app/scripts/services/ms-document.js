@@ -19,15 +19,21 @@ angular.module('mapsheetApp')
     };
 
     var doc = {
-      config: defaults
+      id: null,
+      config: defaults,
+      worksheet: null,
+      spreadsheet: null
     };
     var tableDocId = null;
     var table = [];
 
     return {
+      'doc': doc,
       open: function (d) {
-        d.config = _.extend(defaults, d.config);
-        doc = d;
+        doc.id = d.id;
+        doc.config = _.extend(defaults, d.config);
+        doc.worksheet = d.worksheet;
+        doc.spreadsheet = d.spreadsheet;
       },
       getDocument: function() {
         return doc;

@@ -30,9 +30,12 @@ angular.module('mapsheetApp')
       if (wrapper.documents.length === 0) {
         msGoogleApi.request(wrapper.spreadsheet.worksheetsFeed).success(function(data) {
           var documents = _.map(data.feed.entry, function(e) {
+            var w = worksheetParser.parse(e);
+
             return {
+              id: new Hashes.SHA256().hex(w.id),
               spreadsheet: wrapper.spreadsheet,
-              worksheet: worksheetParser.parse(e)
+              worksheet: w
             };
           });
 
