@@ -26,18 +26,6 @@ angular.module('mapsheetApp')
 
         var mapConfig = msMap.getMapConfig;
 
-        scope.chooseLat = function(col) {
-          mapConfig().latCol = col.id;
-        };
-
-        scope.chooseLng = function(col) {
-          mapConfig().lngCol = col.id;
-        };
-
-        scope.chooseRad = function(col) {
-          mapConfig().radCol = col.id;
-        };
-
         scope.toggleRow = function(row) {
           if (_.some(msMap.getShowRows(), function(r) { return r.id === row.id; })) {
             msMap.setShowRows(

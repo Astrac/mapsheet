@@ -6,19 +6,11 @@
                 <a href="" ng-click="showAll()">All</a>
                 <a href="" ng-click="showNone()">None</a>
             </th>
-            <th class="dropdown" ng-repeat="col in columns">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="label" ng-show="isLat(col)">Lat</span>
-                    <span class="label" ng-show="isLng(col)">Lng</span>
-                    <span class="label" ng-show="isRad(col)">Rad</span>
-                    <p>{{col.label}}<b class="caret"></b></p>
-                </a>
-                <ul class="dropdown-menu">
-                    <li ng-click="hideColumn(col)"><a href="">Hide column</a></li>
-                    <li ng-click="chooseLat(col)"><a href="">Use as latitude</a></li>
-                    <li ng-click="chooseLng(col)"><a href="">Use as longitude</a></li>
-                    <li ng-click="chooseRad(col)"><a href="">Use as radius</a></li>
-                </ul>
+            <th ng-repeat="col in columns">
+                <span class="label" ng-show="isLat(col)">Lat</span>
+                <span class="label" ng-show="isLng(col)">Lng</span>
+                <span class="label" ng-show="isRad(col)">Rad</span>
+                <p>{{col.label}}</p>
             </th>
         </tr>
     </thead>
