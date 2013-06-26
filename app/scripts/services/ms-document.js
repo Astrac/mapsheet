@@ -13,7 +13,7 @@ angular.module('mapsheetApp')
       },
       table: {
         rowHeader: false,
-        hideColumns: [],
+        columns: {},
         pageSize: 15
       }
     };
