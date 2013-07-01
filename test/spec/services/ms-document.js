@@ -50,7 +50,7 @@ describe('Service: msDocument', function () {
     msGoogleApiDeferredMock = _$q_.defer();
   }));
 
-  xit('should correctly set status and defaults invoking open', function () {
+  it('should correctly set status and defaults invoking open', function () {
     msDocument.open(noConfigDoc);
     expect(msDocument.getDocument()).toEqual(_.extend(noConfigDoc, {
       config: {
