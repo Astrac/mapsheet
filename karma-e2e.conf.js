@@ -21,7 +21,7 @@ reporters = ['progress'];
 port = 8080;
 
 // cli runner port
-runnerPort = 9100;
+runnerPort = 10001;
 
 // enable / disable colors in the output (reporters and logs)
 colors = true;
@@ -31,7 +31,7 @@ colors = true;
 logLevel = LOG_INFO;
 
 // enable / disable watching file and executing tests whenever any file changes
-autoWatch = false;
+autoWatch = true;
 
 // Start these browsers, currently available:
 // - Chrome

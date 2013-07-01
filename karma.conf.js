@@ -14,6 +14,7 @@ files = [
   'app/components/angular-sanitize/angular-sanitize.js',
   'app/components/angular-bootstrap/ui-bootstrap-tpls.js',
   'app/components/angular-localstorage/localStorageModule.js',
+  'app/components/angular-http-auth/src/http-auth-interceptor.js',
   'app/components/underscore/underscore.js',
   'app/components/jshashes/hashes.js',
   'app/components/DropletJS.Class/src/DropletJS.Class.js',
@@ -38,7 +39,7 @@ reporters = ['progress'];
 port = 10002;
 
 // cli runner port
-runnerPort = 9100;
+runnerPort = 10001;
 
 // enable / disable colors in the output (reporters and logs)
 colors = true;
@@ -48,7 +49,7 @@ colors = true;
 logLevel = LOG_INFO;
 
 // enable / disable watching file and executing tests whenever any file changes
-autoWatch = false;
+autoWatch = true;
 
 // Start these browsers, currently available:
 // - Chrome
