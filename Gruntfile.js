@@ -104,6 +104,13 @@ module.exports = function (grunt) {
         configFile: 'karma.conf.js',
         singleRun: true,
         browsers: ['PhantomJS']
+      },
+      run: {
+        runnerPort: 10001,
+        configFile: 'karma.conf.js',
+        singleRun: false,
+        browsers: ['PhantomJS'],
+        autoWatch: true
       }
     },
     coffee: {
@@ -277,7 +284,15 @@ module.exports = function (grunt) {
     'coffee',
     'less',
     'connect:test',
-    'karma'
+    'karma:unit'
+  ]);
+
+  grunt.registerTask('test-watch', [
+    'clean:server',
+    'coffee',
+    'less',
+    'connect:test',
+    'karma:run'
   ]);
 
   grunt.registerTask('build', [
