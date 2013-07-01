@@ -1,10 +1,7 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .factory('msDocument', function ($q, msGoogleApi) {
-    // TODO: This should be a service on its own!
-    var tableParser = new Mapsheet.TableParser();
-
+  .factory('msDocument', function ($q, msGoogleApi, msGoogleTableParser) {
     var defaults = {
       map: {
         latCol: null,
@@ -27,11 +24,18 @@ angular.module('mapsheetApp')
     var tableDocId = null;
     var table = [];
 
+    var extendConfig = function(config) {
+      return {
+        map: _.extend(defaults.map, config && config.map ? config.map : {}),
+        table: _.extend(defaults.table, config && config.table ? config.table : {})
+      };
+    };
+
     return {
       'doc': doc,
       open: function (d) {
         doc.id = d.id;
-        doc.config = _.extend(defaults, d.config);
+        doc.config = extendConfig(d.config);
         doc.worksheet = d.worksheet;
         doc.spreadsheet = d.spreadsheet;
       },
@@ -48,7 +52,7 @@ angular.module('mapsheetApp')
             .request(doc.worksheet.cellsFeed)
             .success(function(data) {
               tableDocId = doc.id;
-              table = tableParser.parse(data);
+              table = msGoogleTableParser.parse(data);
               deferred.resolve(table);
             });
         } else {
