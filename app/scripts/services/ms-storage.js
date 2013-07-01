@@ -8,6 +8,7 @@ angular.module('mapsheetApp')
       var user = null;
       var documents = null;
 
+      // TODO: There should be some caching strategy here!
       var updateUser = function () {
         var deferred = $q.defer();
 
