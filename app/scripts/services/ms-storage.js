@@ -30,10 +30,15 @@ angular.module('mapsheetApp')
           then(function (user) {
             var prefix = user.id.toString();
             if (documents === null) {
-              documents = JSON.parse(localStorageService.get(prefix + '.documents'));
-              if (documents === null) {
-                documents = {};
+              var storedDocs = localStorageService.get(prefix + '.documents');
+
+              if (typeof(storedDocs) === 'string') {
+                storedDocs = JSON.parse(storedDocs);
+              } else if (storedDocs === null || typeof(storedDocs) !== 'object') {
+                storedDocs = {};
               }
+
+              documents = storedDocs;
             }
 
             if (f) {
