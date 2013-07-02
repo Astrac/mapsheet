@@ -12,8 +12,6 @@ angular.module('mapsheetApp')
           // TODO: This is suboptimal (i.e. it's triggered also for pagination)
           return msTable.getStatus();
         }, function() {
-          console.log(scope.map);
-          console.log(msDocument.doc.config.map);
           scope.map = msDocument.doc.config.map;
           msTable.columns().then(function(cols) {
             scope.columns = cols;

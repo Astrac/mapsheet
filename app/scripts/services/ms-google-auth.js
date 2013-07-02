@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('mapsheetApp')
-  .factory('msGoogleAuth', ['$rootScope', '$q', 'authService', 'localStorageService',
-    function ($rootScope, $q, authService, localStorageService) {
+  .factory('msGoogleAuth', ['$rootScope', '$q', 'authService', 'localStorageService', 'googleClientId', 'googleScope',
+    function ($rootScope, $q, authService, localStorageService, googleClientId, googleScope) {
       var config = {
-        'client_id': '99733533475-l9qb04qqsbn8hgq73flvvvi1pb4hp8bv.apps.googleusercontent.com',
-        'scope': 'https://spreadsheets.google.com/feeds https://www.googleapis.com/auth/userinfo.email'
+        'client_id': googleClientId,
+        'scope': googleScope
       };
 
       var token = localStorageService.get('gapi_token');

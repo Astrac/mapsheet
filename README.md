@@ -4,16 +4,29 @@ An handy tool to visualize and edit geo-referenced data in a google spreadsheet.
 
 ## Installation
 
+### Requirements
+
 Some requirements to get started with development:
 
 * [NodeJS](http://http://nodejs.org/) with [npm](https://npmjs.org/) package manager
 * [Yeoman](http://yeoman.io/)
 * [PhantomJS](http://phantomjs.org/) - needed for tests, though it is possible to change the configuration and use any browser supported by karma
 
+### Project setup
+
 After installing node and yeoman you can clone the repository and run the commands:
 
     npm install
     bower install
+
+### Configuration
+
+Copy the app/scripts/config.example.js to app/scripts/config.js and put your
+Google OAuth2 Client ID to enable API access.
+
+You can access the API Console using this [URL](https://code.google.com/apis/console).
+
+### Grunt tasks
 
 Now to run the embedded server with livereload:
 
