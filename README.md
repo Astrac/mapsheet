@@ -5,7 +5,8 @@ is a single page application that resides entirely on the client; it's based on 
 [AngularJS](http://angularjs.org/) framework and leverages [Yeoman](http://yeoman.io/)
 for scaffolding and tasks automation.
 
-You can see a demo at this [URL](http://mapsheet.astrac.me)
+You can see a demo at this [URL](http://mapsheet.astrac.me) and use this
+[example worksheet](https://docs.google.com/spreadsheet/ccc?key=0AopFUXTGx8J-dHhzNDE5M0hrNUM0dE1QUEFoTjNqNWc&usp=sharing)
 
 This project is released under the MIT Licence and any contribution is very welcome!
 
