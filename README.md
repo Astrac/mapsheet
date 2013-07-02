@@ -1,6 +1,13 @@
 # Mapsheet
 
-An handy tool to visualize and edit geo-referenced data in a google spreadsheet.
+A simple handy tool to visualize geo-referenced data in a google spreadsheet. Mapsheet
+is a single page application that resides entirely on the client; it's based on the
+[AngularJS](http://angularjs.org/) framework and leverages [Yeoman](http://yeoman.io/)
+for scaffolding and tasks automation.
+
+You can see a demo at this [URL](http://mapsheet.astrac.me)
+
+This project is released under the MIT Licence and any contribution is very welcome!
 
 ## Installation
 
