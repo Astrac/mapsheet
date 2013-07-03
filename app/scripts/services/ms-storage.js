@@ -8,19 +8,22 @@ angular.module('mapsheetApp')
       var user = null;
       var documents = null;
 
-      // TODO: There should be some caching strategy here!
       var updateUser = function () {
         var deferred = $q.defer();
 
-        msGoogleApi.request(url).success(function(data) {
-          user = data;
+        if (user !== null) {
+          deferred.resolve(user);
+        } else {
+          msGoogleApi.request(url).success(function(data) {
+            user = data;
 
-          if (user !== null) {
-            deferred.resolve(user);
-          } else {
-            deferred.reject('Cannot retrieve user data');
-          }
-        });
+            if (user !== null) {
+              deferred.resolve(user);
+            } else {
+              deferred.reject('Cannot retrieve user data');
+            }
+          });
+        }
 
         return deferred.promise;
       };
@@ -53,7 +56,7 @@ angular.module('mapsheetApp')
       return {
         init: function() {
           documents = null;
-          return withDocuments();
+          user = null;
         },
         getDocuments: function() {
           return withDocuments();
