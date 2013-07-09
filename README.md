@@ -40,9 +40,6 @@ Now to run the embedded server with livereload:
 
     grunt server
 
-**Please note** that the API key used in the repository will only work if the
-application is served at the URL http://127.0.0.1:9999
-
 Other useful grunt tasks:
 
 * **grunt test** - Single run tests
